@@ -110,11 +110,12 @@ class MyBot(irc.bot.SingleServerIRCBot):
         r = requests.get(url, headers=head)
         if r.headers.get("content-type").find("html") != -1:
             try:
+                r.encoding = chardet.detect(r.text)
                 soup = BeautifulSoup(r.text, "html5lib")
                 return soup.title.string
             except Exception:
                 return False
-        return ""
+        return False
 
     def on_dccmsg(self, c, e):
         # non-chat DCC messages are raw bytes; decode as text
