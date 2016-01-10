@@ -1,0 +1,6 @@
+BeautifulSoup4
+html5lib
+requests
+irc
+chardet
+Pillow

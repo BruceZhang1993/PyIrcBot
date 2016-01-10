@@ -19,7 +19,7 @@ class ImageHandler(object):
 
     def get_size(self, formats="Width: %W Height: %H"):
         (width, height) = self.image.size
-        return formats.replace("%W", width).replace("%H", height)
+        return formats.replace("%W", str(width)).replace("%H", str(height))
 
     def get_mode(self, lower=False):
         if lower:

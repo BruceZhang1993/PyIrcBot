@@ -92,16 +92,29 @@ class MyBot(irc.bot.SingleServerIRCBot):
         return re.match(r'^https?:\/\/', url)
 
     def is_image(self, url):
-        return re.match(r'\.jpg|\.png|\.ico|\.gif|\.tiff|\.jpeg|\.bmp|\.svg|\.tga：', url, re.IGNORECASE)
+        head = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:43.0) Gecko/20100101 Firefox/43.0"
+        }
+        r = requests.get(url, headers=head)
+        mime = r.headers.get("Content-Type")
+        if mime.find("image") != -1:
+            # self.connection.privmsg(self.channel, "Content-Type: %s" % mime)
+            return True
+        return False
 
     def get_title(self, url):
         head = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:43.0) Gecko/20100101 Firefox/43.0"
         }
         r = requests.get(url, headers=head)
-        r.encoding = chardet.detect(r.text.encode())["encoding"]
-        soup = BeautifulSoup(r.text, "html5lib")
-        return soup.title.string
+        if r.headers.get("content-type").find("html") != -1:
+            try:
+                r.encoding = chardet.detect(r.text.encode())["encoding"]
+                soup = BeautifulSoup(r.text, "html5lib")
+                return soup.title.string
+            except Exception:
+                return False
+        return ""
 
     def on_dccmsg(self, c, e):
         # non-chat DCC messages are raw bytes; decode as text

@@ -1,6 +1,6 @@
 {
-  "nick": "lovemybot",
+  "nick": "brucebot",
   "network": "irc.freenode.net",
   "port": 6667,
-  "channel": "#lovemybot"
+  "channel": "#linuxba"
 }
