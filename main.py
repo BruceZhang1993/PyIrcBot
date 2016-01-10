@@ -81,7 +81,8 @@ class MyBot(irc.bot.SingleServerIRCBot):
                     image = ImageHandler(word)
                     imtype = image.get_format()
                     imsize = image.get_size("%W x %H")
-                    self.connection.privmsg(self.channel, "[ Image ] 类型: %s 尺寸: %s" % (imtype, imsize))
+                    self.connection.privmsg(
+                        self.channel, "[ Image ] 类型: %s 尺寸: %s" % (imtype, imsize))
                 else:
                     title = self.get_title(word)
                     if title:
@@ -91,13 +92,13 @@ class MyBot(irc.bot.SingleServerIRCBot):
         return re.match(r'^https?:\/\/', url)
 
     def is_image(self, url):
-        return re.match(r'\.jpg$|\.png$|\.ico$|\.gif$|\.tiff$|\.jpeg$|\.bmp$|\.svg$|\.tga$', url, re.IGNORECASE)
+        return re.match(r'\.jpg|\.png|\.ico|\.gif|\.tiff|\.jpeg|\.bmp|\.svg|\.tga：', url, re.IGNORECASE)
 
     def get_title(self, url):
         head = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:43.0) Gecko/20100101 Firefox/43.0"
         }
-        r = requests.get(url, headers = head)
+        r = requests.get(url, headers=head)
         r.encoding = chardet.detect(r.text.encode())["encoding"]
         soup = BeautifulSoup(r.text, "html5lib")
         return soup.title.string
