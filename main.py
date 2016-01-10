@@ -36,6 +36,7 @@ import re
 from bs4 import BeautifulSoup
 import requests
 import chardet
+from ImageHandler import ImageHandler
 
 
 class MyBot(irc.bot.SingleServerIRCBot):
@@ -76,12 +77,21 @@ class MyBot(irc.bot.SingleServerIRCBot):
         words = msg.split()
         for word in words:
             if self.is_url(word):
-                title = self.get_title(word)
-                if title:
-                    self.connection.privmsg(self.channel, "[ %s ] %s" % (title, word))
+                if self.is_image(url):
+                    image = ImageHandler(url)
+                    imtype = image.get_format()
+                    imsize = image.get_size("%W x %H")
+                    self.connection.privmsg(self.channel, "[ Image ] 类型: %s 尺寸: %s" % (imtype, imsize))
+                else:
+                    title = self.get_title(word)
+                    if title:
+                        self.connection.privmsg(self.channel, "[ %s ] %s" % (title, word))
 
     def is_url(self, url):
         return re.match(r'^https?:\/\/', url)
+
+    def is_image(self, url):
+        return re.match(r'\.jpg$|\.png$|\.ico$|\.gif$|\.tiff$|\.jpeg$|\.bmp$|\.svg$|\.tga$', url, re.IGNORECASE)
 
     def get_title(self, url):
         head = {
