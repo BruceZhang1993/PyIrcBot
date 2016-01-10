@@ -1,6 +1,6 @@
 {
-  "nick": "ututbot",
+  "nick": "lovemybot",
   "network": "irc.freenode.net",
   "port": 6667,
-  "channel": "#linuxba"
+  "channel": "#lovemybot"
 }
