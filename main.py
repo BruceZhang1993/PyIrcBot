@@ -110,7 +110,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
         r = requests.get(url, headers=head)
         if r.headers.get("content-type").find("html") != -1:
             try:
-                soup = BeautifulSoup(r.text, "html5lib", from_encoding=r.encoding)
+                soup = BeautifulSoup(r.text, "html5lib")
                 return soup.title.string
             except Exception:
                 return False
