@@ -110,8 +110,9 @@ class MyBot(irc.bot.SingleServerIRCBot):
         r = requests.get(url, headers=head)
         if r.headers.get("content-type").find("html") != -1:
             try:
-                r.encoding = chardet.detect(r.text.encode())["encoding"]
-                monkey_patch()
+                soup = BeautifulSoup(r.text, "html5lib")
+                title = soup.title.string
+                r.encoding = chardet.detect(title)["encoding"]
                 soup = BeautifulSoup(r.text, "html5lib")
                 return soup.title.string
             except Exception:
@@ -162,21 +163,6 @@ class MyBot(irc.bot.SingleServerIRCBot):
                           "%s: You're not one of the admins." % nick)
         else:
             return False
-
-def monkey_patch():
-    prop = requests.models.Response.content
-    def content(self):
-        _content = prop.fget(self)
-        if self.encoding == 'ISO-8859-1':
-            encodings = requests.utils.get_encodings_from_content(_content)
-            if encodings:
-                self.encoding = encodings[0]
-            else:
-                self.encoding = self.apparent_encoding
-            _content = _content.decode(self.encoding, 'replace').encode('utf8', 'replace')
-            self._content = _content
-        return _content
-    requests.models.Response._content = property(content)
 
 def main():
     # DONE:10 Try using config file
