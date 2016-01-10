@@ -77,8 +77,8 @@ class MyBot(irc.bot.SingleServerIRCBot):
         words = msg.split()
         for word in words:
             if self.is_url(word):
-                if self.is_image(url):
-                    image = ImageHandler(url)
+                if self.is_image(word):
+                    image = ImageHandler(word)
                     imtype = image.get_format()
                     imsize = image.get_size("%W x %H")
                     self.connection.privmsg(self.channel, "[ Image ] 类型: %s 尺寸: %s" % (imtype, imsize))
