@@ -2,5 +2,6 @@
   "nick": "brucebot",
   "network": "irc.freenode.net",
   "port": 6667,
-  "channel": "#linuxba"
+  "channel": "#linuxba",
+  "admins": ["bruceutut", "bruceutut-m"]
 }

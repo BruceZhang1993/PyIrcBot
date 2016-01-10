@@ -28,25 +28,26 @@
 import sys
 import irc.bot
 import irc.strings
-from irc.client import ip_numstr_to_quad, ip_quad_to_numstr
+from irc.client import ip_numstr_to_quad
 import json
 from time import strftime
 from timeloop import TimeLoop
 import re
 from bs4 import BeautifulSoup
 import requests
+import requests.models
 import chardet
 from ImageHandler import ImageHandler
 
 
 class MyBot(irc.bot.SingleServerIRCBot):
-    admins = ["bruceutut", "bruceutut-m"]
 
-    def __init__(self, channel, nickname, server, port=6667):
+    def __init__(self, channel, nickname, server, port, admins):
         irc.bot.SingleServerIRCBot.__init__(self, [(server, port)],
                                             nickname, nickname)
         self.channel = channel
         self.timer = TimeLoop(1, self.time_func)
+        self.admins = admins
         # TODO:10 More channels support
 
     def time_func(self):
@@ -110,6 +111,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
         if r.headers.get("content-type").find("html") != -1:
             try:
                 r.encoding = chardet.detect(r.text.encode())["encoding"]
+                monkey_patch()
                 soup = BeautifulSoup(r.text, "html5lib")
                 return soup.title.string
             except Exception:
@@ -161,6 +163,20 @@ class MyBot(irc.bot.SingleServerIRCBot):
         else:
             return False
 
+def monkey_patch():
+    prop = requests.models.Response.content
+    def content(self):
+        _content = prop.fget(self)
+        if self.encoding == 'ISO-8859-1':
+            encodings = requests.utils.get_encodings_from_content(_content)
+            if encodings:
+                self.encoding = encodings[0]
+            else:
+                self.encoding = self.apparent_encoding
+            _content = _content.decode(self.encoding, 'replace').encode('utf8', 'replace')
+            self._content = _content
+        return _content
+    requests.models.Response._content = property(content)
 
 def main():
     # DONE:10 Try using config file
@@ -172,6 +188,7 @@ def main():
         nickname = config["nick"]
         server = config["network"]
         port = config["port"]
+        admins = config["admins"]
     except IOError:
         print("I/O Error.")
         import sys
@@ -179,7 +196,7 @@ def main():
     finally:
         if fp:
             fp.close()
-    bot = MyBot(channel, nickname, server, port)
+    bot = MyBot(channel, nickname, server, port, admins)
     bot.start()
 
 if __name__ == "__main__":
