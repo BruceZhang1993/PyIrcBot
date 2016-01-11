@@ -9,7 +9,8 @@ from PIL import Image
 class ImageHandler(object):
     def __init__(self, url):
         self.url = url
-        self.file = urllib.request.urlopen(self.url)
+        self.r = urllib.request.Request(self.url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:43.0) Gecko/20100101 Firefox/43.0"})
+        self.file = urllib.request.urlopen(self.r)
         self.image = Image.open(self.file)
 
     def get_format(self, lower=False):

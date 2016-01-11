@@ -86,7 +86,6 @@ class MyBot(irc.bot.SingleServerIRCBot):
                         "[ Image ] 类型: %s 尺寸: %s" % (imtype, imsize))
                 else:
                     title = self.get_title(word)
-                    print(title)
                     if title:
                         self.connection.privmsg(self.channel,
                                                 "[ %s ] %s" % (title, word))
