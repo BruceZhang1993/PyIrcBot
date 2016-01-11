@@ -35,7 +35,6 @@ from timeloop import TimeLoop
 import re
 from bs4 import BeautifulSoup
 import requests
-import requests.models
 import chardet
 from ImageHandler import ImageHandler
 
@@ -70,9 +69,9 @@ class MyBot(irc.bot.SingleServerIRCBot):
     def on_pubmsg(self, c, e):
         self.url_detect(e.arguments[0])
         # Following condition only matches when $ at the beginning
-        a = e.arguments[0].split('$')
-        if len(a) > 1 and a[0] == "":
-            self.do_command(e, a[1].strip())
+        if e.arguments[0][0] == "$":
+            a = e.arguments[0][1:]
+            self.do_command(e, a)
 
     def url_detect(self, msg):
         words = msg.split()
@@ -83,11 +82,14 @@ class MyBot(irc.bot.SingleServerIRCBot):
                     imtype = image.get_format()
                     imsize = image.get_size("%W x %H")
                     self.connection.privmsg(
-                        self.channel, "[ Image ] 类型: %s 尺寸: %s" % (imtype, imsize))
+                        self.channel,
+                        "[ Image ] 类型: %s 尺寸: %s" % (imtype, imsize))
                 else:
                     title = self.get_title(word)
+                    print(title)
                     if title:
-                        self.connection.privmsg(self.channel, "[ %s ] %s" % (title, word))
+                        self.connection.privmsg(self.channel,
+                                                "[ %s ] %s" % (title, word))
 
     def is_url(self, url):
         return re.match(r'^https?:\/\/', url)
@@ -96,7 +98,11 @@ class MyBot(irc.bot.SingleServerIRCBot):
         head = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:43.0) Gecko/20100101 Firefox/43.0"
         }
-        r = requests.get(url, headers=head)
+        try:
+            r = requests.get(url, headers=head)
+        except requests.exceptions.ConnectionError:
+            print("Connection Faild.")
+            return False
         mime = r.headers.get("Content-Type")
         if mime.find("image") != -1:
             # self.connection.privmsg(self.channel, "Content-Type: %s" % mime)
@@ -107,13 +113,19 @@ class MyBot(irc.bot.SingleServerIRCBot):
         head = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:43.0) Gecko/20100101 Firefox/43.0"
         }
-        r = requests.get(url, headers=head)
+        try:
+            r = requests.get(url, headers=head)
+        except requests.exceptions.ConnectionError:
+            print("Connection Faild.")
+            return False
         if r.headers.get("content-type").find("html") != -1:
             try:
-                r.encoding = chardet.detect(r.text)
+                r.encoding = chardet.detect(r.text.encode())["encoding"]
+                if url.find("hb.qq.com") != -1:
+                    r.encoding = "gb2312"
                 soup = BeautifulSoup(r.text, "html5lib")
                 return soup.title.string
-            except Exception:
+            except AttributeError:
                 return False
         return False
 
@@ -161,6 +173,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
                           "%s: You're not one of the admins." % nick)
         else:
             return False
+
 
 def main():
     # DONE:10 Try using config file
