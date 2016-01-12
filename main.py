@@ -153,6 +153,9 @@ class MyBot(irc.bot.SingleServerIRCBot):
             elif r.text.find("charset=\"") != -1:
                 matches = re.match(r'charset=\"(\w+)\"', r.text)
                 r.encoding = matches.group(1)
+            elif r.text.find("charset=") != -1:
+                matches = re.match(r'charset=(\w+)', r.text)
+                r.encoding = matches.group(1)
             else:
                 r.encoding = "utf-8"   # maybe set to None to autodetect
             soup = BeautifulSoup(r.text, "html5lib")
