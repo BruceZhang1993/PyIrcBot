@@ -112,20 +112,19 @@ class MyBot(irc.bot.SingleServerIRCBot):
         head = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:43.0) Gecko/20100101 Firefox/43.0"
         }
-        try:
-            r = requests.get(url, headers=head)
-        except requests.exceptions.ConnectionError:
-            print("Connection Faild.")
-            return False
+        r = requests.get(url, headers=head)
         if r.headers.get("content-type").find("html") != -1:
-            try:
-                r.encoding = chardet.detect(r.text.encode())["encoding"]
-                if url.find("hb.qq.com") != -1:
-                    r.encoding = "gb2312"
-                soup = BeautifulSoup(r.text, "html5lib")
-                return soup.title.string
-            except AttributeError:
-                return False
+            ctype = r.headers.get("content-type")
+            if ctype.find("charset") != -1:
+                pos = ctype.find("charset") + 8
+                r.encoding = ctype[pos:]
+            elif r.text.find("charset=\"") != -1:
+                matches = re.match(r'charset=\"(\w+)\"')
+                r.encoding = matches.group(1)
+            else:
+                r.encoding = "utf-8"   # maybe set to None to autodetect
+            soup = BeautifulSoup(r.text, "html5lib")
+            return soup.title.string
         return False
 
     def on_dccmsg(self, c, e):
@@ -156,8 +155,10 @@ class MyBot(irc.bot.SingleServerIRCBot):
     def execute_command(self, cmd, args, nick, channel):
         # DONE:0 Finish function command_string
         # TODO:0 More commands and command interface
+        ctime = strftime("%Y-%m-%d %H:%M:%S")
         simplecommands = {
-            "say": "%s wanted me to say: %s" % (nick, args)
+            "say": "%s wanted me to say: %s" % (nick, args),
+            "time": "%s: Current time is %s" % (nick, ctime)
         }
 
         c = self.connection

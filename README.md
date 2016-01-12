@@ -8,7 +8,6 @@
 - html5lib
 - requests
 - irc
-- chardet
 - Pillow(PIL)
 ---
 ### Installation
@@ -21,5 +20,15 @@ cd PyIrcBot
 ```
 (sudo) pip3 install -r requirements.txt
 ```
+
 ### Configure
+- Edit file config.json
+### Upgrade
+- Pull latest version using git
+
+```
+git pull origin master
+```
+- Configure again
 ### Copyrights & License
+- License: The MIT License (MIT)
