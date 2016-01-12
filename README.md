@@ -23,6 +23,7 @@ cd PyIrcBot
 
 ### Configure
 - Edit file config.json
+
 ### Upgrade
 - Pull latest version using git
 
@@ -30,5 +31,6 @@ cd PyIrcBot
 git pull origin master
 ```
 - Configure again
+
 ### Copyrights & License
 - License: The MIT License (MIT)

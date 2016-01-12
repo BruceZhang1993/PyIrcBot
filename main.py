@@ -37,6 +37,7 @@ from bs4 import BeautifulSoup
 import requests
 import chardet
 from ImageHandler import ImageHandler
+from random import randint
 
 
 class MyBot(irc.bot.SingleServerIRCBot):
@@ -50,11 +51,41 @@ class MyBot(irc.bot.SingleServerIRCBot):
         # TODO:10 More channels support
 
     def time_func(self):
+        msgs = [
+            "0点了，再不碎觉，饥佬们小心不生精啊，腐女们小心会平胸哦!",
+            "1点了，还没有睡？正是发福利的好时间!",
+            "2点了，这个点还没睡觉，注定孤独一生!",
+            "3点了，3点了，碎觉碎觉!",
+            "4点了，你是起床了还是还没睡呢？注意身体哦!",
+            "5点了，5点了，早起的虫子有鸟吃!",
+            "6点了，呦，呦，切克闹，煎饼果子来一套!",
+            "7点了，正是来一发的好钟点!",
+            "8点了，都8点了，我和我的小伙伴们都惊呆了!",
+            "9点了，时间过的好快，快的我都快睡着了!",
+            "10点了，00后表示，什么时候才放学啊!",
+            "11点了，这个点是该想想中午该吃点啥了!",
+            "12点了，酒足饭饱思淫欲，正是调戏妹纸的好时间!",
+            "13点了，这个点不午睡都对不起普天百姓，碎觉!",
+            "14点了，哎呀，还想再睡一会，哎，可是一个人睡太无聊了!",
+            "15点了，请妹纸们喝茶了饥佬们!",
+            "16点了，晚饭吃点什么呢？",
+            "17点了，16点你丫就开始想着吃晚饭了，吃货注孤生!",
+            "18点了，现在是该想想吃点什么了!",
+            "19点了，我是该看电视剧还是上irc？",
+            "20点了，又是一天，反反复复，一人吃饱，全家不饿!",
+            "21点了，贴吧水两贴去吧!",
+            "22点了，来点福利吧!",
+            "23点了，往事历历在目，让我终于醒悟，光棍还是很有前途，跟着狐朋狗友大家抽烟喝酒，一玩一宿，不用发愁!"
+        ]
+        smileys = ["_(:3 」∠)_", "(ง •̀_•́)ง", "(┙>∧<)┙へ┻┻", "Σ( ° △ °|||)︴",
+                   "(→_→)", "(＞д＜)", "(┬＿┬)", "╮（╯＿╰）╭"]
         hour = int(strftime("%H"))
         minute = int(strftime("%M"))
         sec = int(strftime("%S"))
         if minute == 0 and sec == 0:
-            self.connection.action(self.channel, "It's %d o'clock now!" % hour)
+            choose = randint(0, len(smileys) - 1)
+            self.connection.action(self.channel, smileys[choose] + " " +
+                                   msgs[hour])
 
     def on_nicknameinuse(self, c, e):
         c.nick(c.get_nickname() + "_")
@@ -94,6 +125,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
         return re.match(r'^https?:\/\/', url)
 
     def is_image(self, url):
+        return False      # disable for now
         head = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:43.0) Gecko/20100101 Firefox/43.0"
         }
@@ -119,7 +151,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
                 pos = ctype.find("charset") + 8
                 r.encoding = ctype[pos:]
             elif r.text.find("charset=\"") != -1:
-                matches = re.match(r'charset=\"(\w+)\"')
+                matches = re.match(r'charset=\"(\w+)\"', r.text)
                 r.encoding = matches.group(1)
             else:
                 r.encoding = "utf-8"   # maybe set to None to autodetect
