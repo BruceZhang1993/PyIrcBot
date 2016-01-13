@@ -159,7 +159,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
                 if matches:
                     r.encoding = matches.group(1)
             else:
-                r.encoding = None   # maybe set to None to autodetect
+                r.encoding = chardet.detect(r.raw.read())["encoding"]
             soup = BeautifulSoup(r.text, "html5lib")
             return soup.title.string
         return False
