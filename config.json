@@ -3,5 +3,5 @@
   "network": "irc.freenode.net",
   "port": 6667,
   "channel": "#linuxba",
-  "admins": ["bruceutut", "bruceutut-m"]
+  "admins": []
 }
