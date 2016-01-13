@@ -118,8 +118,11 @@ class MyBot(irc.bot.SingleServerIRCBot):
                 else:
                     title = self.get_title(word)
                     if title:
-                        self.connection.privmsg(self.channel,
-                                                "[ %s ] %s" % (title, word))
+                        try:
+                            self.connection.privmsg(self.channel,
+                                                    "[ %s ] %s" % (title, word))
+                        except irc.client.InvalidCharacters:
+                            pass
 
     def is_url(self, url):
         return re.match(r'^https?:\/\/', url)
