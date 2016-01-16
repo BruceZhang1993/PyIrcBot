@@ -38,6 +38,7 @@ import requests
 import chardet
 from ImageHandler import ImageHandler
 from random import randint
+from TitleHandler import TitleHandler
 
 
 class MyBot(irc.bot.SingleServerIRCBot):
@@ -120,7 +121,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
                     if title:
                         try:
                             self.connection.privmsg(self.channel,
-                                                    "[ %s ] %s" % (title, word))
+                                                    "[ %s ] - <%s>" % (title, word))
                         except irc.client.InvalidCharacters:
                             pass
 
@@ -128,7 +129,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
         return re.match(r'^https?:\/\/', url)
 
     def is_image(self, url):
-        return False      # disable for now
+        # return False
         head = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:43.0) Gecko/20100101 Firefox/43.0"
         }
@@ -144,28 +145,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
         return False
 
     def get_title(self, url):
-        head = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:43.0) Gecko/20100101 Firefox/43.0"
-        }
-        r = requests.get(url, headers=head)
-        if r.headers.get("content-type").find("html") != -1:
-            ctype = r.headers.get("content-type")
-            if ctype.find("charset") != -1:
-                pos = ctype.find("charset") + 8
-                r.encoding = ctype[pos:]
-            elif r.text.find("charset=\"") != -1:
-                matches = re.match(r'charset=\"(\w+)\"', r.text)
-                if matches:
-                    r.encoding = matches.group(1)
-            elif r.text.find("charset=") != -1:
-                matches = re.match(r'charset=(\w+)', r.text)
-                if matches:
-                    r.encoding = matches.group(1)
-            else:
-                r.encoding = chardet.detect(r.raw.read())["encoding"]
-            soup = BeautifulSoup(r.text, "html5lib")
-            return soup.title.string
-        return False
+        return TitleHandler(url).get_title()
 
     def on_dccmsg(self, c, e):
         # non-chat DCC messages are raw bytes; decode as text
