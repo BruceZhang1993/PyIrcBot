@@ -19,7 +19,10 @@ class TitleHandler(object):
     def get_title(self):
         soup = BeautifulSoup(self.r.content, "html5lib")
         # print(soup.original_encoding)
-        return soup.title.string
+        if soup.title:
+            return soup.title.string
+        else:
+            return False
 
 if __name__ == '__main__':
     th = TitleHandler("http://hb.qq.com")
