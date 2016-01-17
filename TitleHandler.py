@@ -13,16 +13,21 @@ class TitleHandler(object):
 
     def __init__(self, url):
         self.url = url
-        self.r = requests.get(self.url, headers=self.head)
+        try:
+            self.r = requests.get(self.url, headers=self.head)
+        except Exception:
+            self.r = False
         # self.detect_encoding()
 
     def get_title(self):
-        soup = BeautifulSoup(self.r.content, "html5lib")
-        # print(soup.original_encoding)
-        if soup.title:
-            return soup.title.string
-        else:
-            return False
+        if self.r:
+            soup = BeautifulSoup(self.r.content, "html5lib")
+            # print(soup.original_encoding)
+            if soup.title:
+                return soup.title.string
+            else:
+                return False
+        return False
 
 if __name__ == '__main__':
     th = TitleHandler("http://hb.qq.com")
