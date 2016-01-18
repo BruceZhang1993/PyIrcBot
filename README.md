@@ -9,6 +9,7 @@
 - requests
 - irc
 - Pillow(PIL)
+- PyGithub
 ---
 ### Installation
 1. Clone this repo and change to working dir
@@ -18,7 +19,7 @@ cd PyIrcBot
 ```
 2. Install all dependencies
 ```
-(sudo) pip3 install -r requirements.txt
+pip3 install -r requirements.txt --user
 ```
 
 ### Configure

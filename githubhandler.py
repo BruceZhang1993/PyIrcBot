@@ -29,7 +29,7 @@ class GithubHandler(object):
         return self.repo.open_issues_count
 
     def get_owner(self):
-        return self.repo.owner
+        return self.repo.owner.name
 
     def get_starcount(self):
         return self.repo.stargazers_count
