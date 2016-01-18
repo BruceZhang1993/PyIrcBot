@@ -35,9 +35,12 @@ class TitleHandler(object):
         else:
             return False
 
-    def get_charset(self):
+    def get_charset(self, upper=True):
         if self.soup:
-            return self.soup.original_encoding
+            if upper:
+                return self.soup.original_encoding.upper()
+            else:
+                return self.soup.original_encoding
         else:
             return False
 

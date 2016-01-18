@@ -39,6 +39,7 @@ import chardet
 from imagehandler import ImageHandler
 from random import randint
 from titlehandler import TitleHandler
+from githubhandler import GithubHandler
 
 
 class MyBot(irc.bot.SingleServerIRCBot):
@@ -109,7 +110,22 @@ class MyBot(irc.bot.SingleServerIRCBot):
         words = msg.split()
         for word in words:
             if self.is_url(word):
-                if self.is_image(word):
+                isrepo = self.is_ghrepo(word)
+                if isrepo:
+                    (user, repo) = isrepo
+                    try:
+                        gh = GithubHandler(user, repo)
+                        reponame = gh.get_name()
+                        repoowner = gh.get_owner()
+                        repowatches = gh.get_watchcount()
+                        repostars = gh.get_starcount()
+                        repoforks = gh.get_forkscount()
+                        repoissues = gh.get_openissuecount()
+                        repodesc = gh.get_desciption()
+                        self.connection.privmsg(self.channel, "↑↑ [ GayHub Repo ] Name: %s Owner: %s Desc: %s Watch: %d Stars: %d Forks: %d OpenIssues: %d ↑↑" % (reponame, repoowner, repodesc, repowatches, repostars, repoforks, repoissues))
+                    except Exception:
+                        pass
+                elif self.is_image(word):
                     image = ImageHandler(word)
                     imtype = image.get_format()
                     imsize = image.get_size("%W x %H")
@@ -129,6 +145,13 @@ class MyBot(irc.bot.SingleServerIRCBot):
 
     def is_url(self, url):
         return re.match(r'^https?:\/\/', url)
+
+    def is_ghrepo(self, url):
+        matches = re.match(r'^https?:\/\/github\.com\/([\w\-]+)\/([\w\-]+)\/?$', url)
+        if not matches:
+            return False
+        else:
+            return (matches.group(1), matches.group(2))
 
     def is_image(self, url):
         # return False
