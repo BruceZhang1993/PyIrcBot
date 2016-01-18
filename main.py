@@ -148,7 +148,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
 
     def get_title(self, url):
         th = TitleHandler(url)
-        return (th.get_title, th.get_charset)
+        return (th.get_title(), th.get_charset())
 
 
     def on_dccmsg(self, c, e):
