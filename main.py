@@ -117,12 +117,12 @@ class MyBot(irc.bot.SingleServerIRCBot):
                         gh = GithubHandler(user, repo)
                         reponame = gh.get_name()
                         repoowner = gh.get_owner()
-                        repowatches = gh.get_watchcount()
+                        # repowatches = gh.get_watchcount()
                         repostars = gh.get_starcount()
                         repoforks = gh.get_forkscount()
                         repoissues = gh.get_openissuecount()
                         repodesc = gh.get_desciption()
-                        self.connection.privmsg(self.channel, "↑↑ [ GayHub Repo ] Name: %s Owner: %s Desc: %s Watch: %d Stars: %d Forks: %d OpenIssues: %d ↑↑" % (reponame, repoowner, repodesc, repowatches, repostars, repoforks, repoissues))
+                        self.connection.privmsg(self.channel, "↑↑ [ GayHub Repo ] Name: %s Owner: %s Desc: %s Stars: %d Forks: %d OpenIssues: %d ↑↑" % (reponame, repoowner, repodesc, repostars, repoforks, repoissues))
                     except Exception:
                         pass
                 elif self.is_image(word):

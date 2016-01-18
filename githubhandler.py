@@ -17,31 +17,31 @@ class GithubHandler(object):
         self.repo = self.gayhub.get_repo(self.fullrepo)
 
     def get_desciption(self):
-        return self.repo.description()
+        return self.repo.description
 
     def get_forkscount(self):
-        return self.repo.forks_count()
+        return self.repo.forks_count
 
     def get_name(self):
-        return self.repo.name()
+        return self.repo.name
 
     def get_openissuecount(self):
-        return self.repo.open_issues_count()
+        return self.repo.open_issues_count
 
     def get_owner(self):
-        return self.repo.owner.name()
+        return self.repo.owner.name
 
     def get_starcount(self):
-        return self.repo.stargazers_count()
+        return self.repo.stargazers_count
 
     def get_watchcount(self):
-        return self.repo.watchers_count()
+        return self.repo.watchers_count
 
     def get_ctime(self):
-        return self.repo.created_at().strftime(self.timeformat)
+        return self.repo.created_at.strftime(self.timeformat)
 
     def get_utime(self):
-        return self.repo.updated_at().strftime(self.timeformat)
+        return self.repo.updated_at.strftime(self.timeformat)
 
 
 if __name__ == '__main__':
