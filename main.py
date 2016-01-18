@@ -129,8 +129,10 @@ class MyBot(irc.bot.SingleServerIRCBot):
                     image = ImageHandler(word)
                     imtype = image.get_format()
                     imsize = image.get_size("%W x %H")
-                    fsize = image.get_length() / 1024
-                    if imtype and imsize:
+                    fsize = 0
+                    if image.get_length():
+                        fsize = image.get_length() / 1024
+                    if imtype and imsize and fsize:
                         self.connection.privmsg(
                             self.channel,
                             "↑↑ [ 图片信息 ] 文件类型： %s  图片尺寸： %s  文件大小： %s KBytes ↑↑" % (imtype, imsize, fsize))
