@@ -19,8 +19,8 @@ class TitleHandler(object):
         try:
             self.r = requests.get(self.url, headers=self.head)
             ct = self.r.headers.get("content-type")
-            matches = re.match(r'charset\=([\w\-]+)', ct, re.IGNORECASE)
-            if matches and matches.group(1).lower() != "utf-8":
+            matches = re.match(r'charset\=([\w\-]+)', ct)
+            if matches:
                 self.charset = matches.group(1)
         except Exception:
             self.r = False
@@ -35,12 +35,9 @@ class TitleHandler(object):
         else:
             return False
 
-    def get_charset(self, upper=True):
+    def get_charset(self):
         if self.soup:
-            if upper:
-                return self.soup.original_encoding.upper()
-            else:
-                return self.soup.original_encoding
+            return self.soup.original_encoding
         else:
             return False
 

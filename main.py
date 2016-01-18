@@ -141,7 +141,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
                     if title:
                         try:
                             self.connection.privmsg(self.channel,
-                                                    "↑↑ [ 网页信息 ] 标题：%s 页面编码：%s ↑↑" % (title, chst))
+                                                    "↑↑ [ 网页信息 ] 标题：%s 页面编码：%s ↑↑" % (title, chst.upper()))
                         except irc.client.InvalidCharacters:
                             pass
 
