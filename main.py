@@ -135,7 +135,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
                     if imtype and imsize:
                         self.connection.privmsg(
                             self.channel,
-                            "↑↑ [ 图片信息 ] 文件类型： %s  图片尺寸： %s  文件大小： %s KBytes ↑↑" % (imtype, imsize, fsize))
+                            "↑↑ [ 图片信息 ] 文件类型： %s  图片尺寸： %s  ↑↑" % (imtype, imsize))
                 else:
                     (title, chst) = self.get_title(word)
                     if title:
