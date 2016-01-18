@@ -36,9 +36,9 @@ import re
 from bs4 import BeautifulSoup
 import requests
 import chardet
-from ImageHandler import ImageHandler
+from imagehandler import ImageHandler
 from random import randint
-from TitleHandler import TitleHandler
+from titlehandler import TitleHandler
 
 
 class MyBot(irc.bot.SingleServerIRCBot):
@@ -113,16 +113,17 @@ class MyBot(irc.bot.SingleServerIRCBot):
                     image = ImageHandler(word)
                     imtype = image.get_format()
                     imsize = image.get_size("%W x %H")
+                    fsize = image.get_length() / 1024
                     if imtype and imsize:
                         self.connection.privmsg(
                             self.channel,
-                            "[ 图片 ] 类型: %s 尺寸: %s" % (imtype, imsize))
+                            "↑↑ [ 图片信息 ] 文件类型： %s  图片尺寸： %s  文件大小： %s KBytes ↑↑" % (imtype, imsize, fsize))
                 else:
-                    title = self.get_title(word)
+                    (title, chst) = self.get_title(word)
                     if title:
                         try:
                             self.connection.privmsg(self.channel,
-                                                    "[ %s ] - <%s>" % (title, word))
+                                                    "↑↑ [ 网页信息 ] 标题：%s 页面编码：%s ↑↑" % (title, chst))
                         except irc.client.InvalidCharacters:
                             pass
 
@@ -146,7 +147,9 @@ class MyBot(irc.bot.SingleServerIRCBot):
         return False
 
     def get_title(self, url):
-        return TitleHandler(url).get_title()
+        th = TitleHandler(url)
+        return (th.get_title, th.get_charset)
+
 
     def on_dccmsg(self, c, e):
         # non-chat DCC messages are raw bytes; decode as text

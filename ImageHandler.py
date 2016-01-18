@@ -36,3 +36,8 @@ class ImageHandler(object):
                 return self.image.mode.lower()
             return self.image.mode
         return False
+
+    def get_length(self):
+        length = self.r.headers.get("content-length")
+        if length:
+            return length
