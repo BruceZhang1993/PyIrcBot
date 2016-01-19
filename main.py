@@ -206,7 +206,11 @@ class MyBot(irc.bot.SingleServerIRCBot):
         # DONE:0 Finish function command_string
         # TODO:0 More commands and command interface
         ctime = strftime("%Y-%m-%d %H:%M:%S")
-        (gender, confidence) = ngender.guess(args)
+        try:
+            (gender, confidence) = ngender.guess(args)
+        except Exception:
+            gender = "<invalid name>"
+            confidence = 0
         simplecommands = {
             "say": "%s" % (args),
             "time": "%s: 当前时间： %s" % (nick, ctime),
