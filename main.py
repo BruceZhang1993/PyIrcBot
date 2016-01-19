@@ -210,7 +210,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
         simplecommands = {
             "say": "%s" % (args),
             "time": "%s: 当前时间： %s" % (nick, ctime),
-            "gender": "%s: [ 性别猜测 ] Name: %s; Gender: %s; Confidence: %.2f%" % (nick, args, gender, confidence * 100)
+            "gender": "%s: [ 性别猜测 ] Name: %s; Gender: %s; Confidence: %.2f" % (nick, args, gender, confidence * 100)
         }
 
         c = self.connection
