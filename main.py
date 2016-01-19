@@ -40,6 +40,7 @@ from imagehandler import ImageHandler
 from random import randint
 from titlehandler import TitleHandler
 from githubhandler import GithubHandler
+import ngender
 
 
 class MyBot(irc.bot.SingleServerIRCBot):
@@ -205,9 +206,11 @@ class MyBot(irc.bot.SingleServerIRCBot):
         # DONE:0 Finish function command_string
         # TODO:0 More commands and command interface
         ctime = strftime("%Y-%m-%d %H:%M:%S")
+        (gender, confidence) = ngender.guess(args)
         simplecommands = {
-            "say": "%s wanted me to say: %s" % (nick, args),
-            "time": "%s: Current time is %s" % (nick, ctime)
+            "say": "%s" % (args),
+            "time": "%s: 当前时间： %s" % (nick, ctime),
+            "gender": "%s: [ 性别猜测 ] Name: %s; Gender: %s; Confidence: %.2f%" % (nick, args, gender, confidence * 100)
         }
 
         c = self.connection
