@@ -102,16 +102,10 @@ class MyBot(irc.bot.SingleServerIRCBot):
 
     def on_pubmsg(self, c, e):
         self.url_detect(e.arguments[0])
-        self.pia_detect(e.arguments[0], e)
         # Following condition only matches when $ at the beginning
         if e.arguments[0][0] == "$":
             a = e.arguments[0][1:]
             self.do_command(e, a)
-
-    def pia_detect(self, msg, e):
-        if re.match(r'brucebot', msg) and re.match(r'p\[?i\]?a', msg):
-            nick = e.source.nick
-            self.connection.privmsg(self.channel, "~pia %s 不要 pia 我！" % nick)
 
     def url_detect(self, msg):
         words = msg.split()
@@ -214,13 +208,19 @@ class MyBot(irc.bot.SingleServerIRCBot):
         ctime = strftime("%Y-%m-%d %H:%M:%S")
         try:
             (gender, confidence) = ngender.guess(args)
+            if gender == "male":
+                gender = "男"
+            elif gender == "female":
+                gender = "女"
+            else:
+                gender = "未知"
         except Exception:
             gender = "<invalid name>"
             confidence = 0
         simplecommands = {
             "say": "%s" % (args),
             "time": "%s: 当前时间： %s" % (nick, ctime),
-            "gender": "%s: [ 性别猜测 ] Name: %s; Gender: %s; Confidence: %.2f" % (nick, args, gender, confidence * 100)
+            "gender": "%s: [ 性别猜测 ] 姓名: %s => 性别: %s; 可信度: %.2f" % (nick, args, gender, confidence * 100)
         }
 
         c = self.connection
