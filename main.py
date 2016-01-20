@@ -102,10 +102,16 @@ class MyBot(irc.bot.SingleServerIRCBot):
 
     def on_pubmsg(self, c, e):
         self.url_detect(e.arguments[0])
+        self.pia_detect(e.arguments[0])
         # Following condition only matches when $ at the beginning
         if e.arguments[0][0] == "$":
             a = e.arguments[0][1:]
             self.do_command(e, a)
+
+    def pia_detect(self, msg, e):
+        if re.match(r'brucebot', msg) and re.match(r'p\[?i\]?a', msg):
+            nick = e.source.nick
+            self.connection.privmsg(self.channel, "~pia %s 不要 pia 我！" % nick)
 
     def url_detect(self, msg):
         words = msg.split()
