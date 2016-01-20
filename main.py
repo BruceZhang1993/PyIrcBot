@@ -102,7 +102,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
 
     def on_pubmsg(self, c, e):
         self.url_detect(e.arguments[0])
-        self.pia_detect(e.arguments[0])
+        self.pia_detect(e.arguments[0], e)
         # Following condition only matches when $ at the beginning
         if e.arguments[0][0] == "$":
             a = e.arguments[0][1:]
