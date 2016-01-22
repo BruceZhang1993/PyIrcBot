@@ -26,6 +26,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 import sys
+import os
 import irc.bot
 import irc.strings
 from irc.client import ip_numstr_to_quad
@@ -220,7 +221,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
         simplecommands = {
             "say": "%s" % (args),
             "time": "%s: 当前时间： %s" % (nick, ctime),
-            "gender": "%s: [ 性别猜测 ] 姓名: %s => 性别: %s; 可信度: %.2f" % (nick, args, gender, confidence * 100)
+            "gender": "%s: [ 性别猜测 ] 姓名: %s => 性别: %s; 可信度: %.2f%%" % (nick, args, gender, confidence * 100)
         }
 
         c = self.connection
@@ -233,6 +234,12 @@ class MyBot(irc.bot.SingleServerIRCBot):
             else:
                 c.privmsg(self.channel,
                           "%s: You're not one of the admins." % nick)
+        elif cmd == "send2qq":
+            try:
+                os.system("qq send group Test \"%s\"" % (args))
+            except Exception:
+                return False
+            c.privmsg(self.channel, "%s: Your message have sent to QQ group." % nick)
         else:
             return False
 
