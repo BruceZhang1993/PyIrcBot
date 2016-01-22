@@ -235,7 +235,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
                 c.privmsg(self.channel,
                           "%s: You're not one of the admins." % nick)
         elif cmd == "send2qq":
-            subprocess.call(["qq", "send group Test \"%s\"" % args])
+            requests.get("http://localhost:3200/send?type=group&to=Test&msg=" + args)
             c.privmsg(self.channel, "%s: Your message have sent to QQ group." % nick)
         else:
             return False
