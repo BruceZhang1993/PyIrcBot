@@ -26,7 +26,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 import sys
-import os
+import subprocess
 import irc.bot
 import irc.strings
 from irc.client import ip_numstr_to_quad
@@ -235,10 +235,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
                 c.privmsg(self.channel,
                           "%s: You're not one of the admins." % nick)
         elif cmd == "send2qq":
-            try:
-                os.system("qq send group Test \"%s\"" % (args))
-            except Exception:
-                return False
+            subprocess.call(["qq", "send group Test \"%s\"" % args])
             c.privmsg(self.channel, "%s: Your message have sent to QQ group." % nick)
         else:
             return False
