@@ -221,9 +221,8 @@ class MyBot(irc.bot.SingleServerIRCBot):
             gender = "<invalid name>"
             confidence = 0
 
-        modules = " ".join(simplecommands.keys())
         simplecommands = {
-            "help": "[ 帮助信息 ] 本bot拥有以下强力技能： %s send2qq(testing) <-- 主动技能； 整点消息 网页信息 图片信息 Github项目信息 [更多功能开发中...] <-- 被动技能" % modules,
+            "help": "[ 帮助信息 ] 本bot拥有以下强力技能： say time gender version send2qq(testing) <-- 主动技能； 整点消息 网页信息 图片信息 Github项目信息 [更多功能开发中...] <-- 被动技能",
             "version": "PyIrcBot | https://github.com/BruceZhang1993/PyIrcBot | Version: %s" % self.version,
             "say": "%s" % (args),
             "time": "%s: 当前时间： %s" % (nick, ctime),
