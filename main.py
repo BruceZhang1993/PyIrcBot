@@ -134,8 +134,9 @@ class MyBot(irc.bot.SingleServerIRCBot):
                     imtype = image.get_format()
                     imsize = image.get_size("%W x %H")
                     fsize = 0
-                    if image.get_length():
-                        fsize = image.get_length() / 1024.0
+                    length = image.get_length()
+                    if length:
+                        fsize = length / 1024.0
                     if imtype and imsize:
                         self.connection.privmsg(
                             self.channel,
