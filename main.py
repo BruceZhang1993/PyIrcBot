@@ -46,6 +46,8 @@ import ngender
 
 class MyBot(irc.bot.SingleServerIRCBot):
 
+    version = "20160123"
+
     def __init__(self, channel, nickname, server, port, admins):
         irc.bot.SingleServerIRCBot.__init__(self, [(server, port)],
                                             nickname, nickname)
@@ -88,7 +90,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
         sec = int(strftime("%S"))
         if minute == 0 and sec == 0:
             choose = randint(0, len(smileys) - 1)
-            self.connection.action(self.channel, smileys[choose] + " " +
+            self.connection.action(self.channel, smileys[choose] +
                                    msgs[hour])
 
     def on_nicknameinuse(self, c, e):
@@ -218,7 +220,11 @@ class MyBot(irc.bot.SingleServerIRCBot):
         except Exception:
             gender = "<invalid name>"
             confidence = 0
+
+        modules = " ".join(simplecommands.keys())
         simplecommands = {
+            "help": "[ 帮助信息 ] 本bot拥有以下强力技能： %s send2qq(testing) <-- 主动技能； 整点消息 网页信息 图片信息 Github项目信息 [更多功能开发中...] <-- 被动技能" % modules,
+            "version": "PyIrcBot | https://github.com/BruceZhang1993/PyIrcBot | Version: %s" % self.version,
             "say": "%s" % (args),
             "time": "%s: 当前时间： %s" % (nick, ctime),
             "gender": "%s: [ 性别猜测 ] 姓名: %s => 性别: %s; 可信度: %.2f%%" % (nick, args, gender, confidence * 100)
@@ -233,10 +239,10 @@ class MyBot(irc.bot.SingleServerIRCBot):
                 sys.exit(0)
             else:
                 c.privmsg(self.channel,
-                          "%s: You're not one of the admins." % nick)
+                          "%s: 就不粗去，喵~" % nick)
         elif cmd == "send2qq":
             requests.get("http://localhost:3200/send?type=group&to=Test&msg=" + args)
-            c.privmsg(self.channel, "%s: Your message have sent to QQ group." % nick)
+            c.privmsg(self.channel, "%s: 消息已同步至QQ群" % nick)
         else:
             return False
 
