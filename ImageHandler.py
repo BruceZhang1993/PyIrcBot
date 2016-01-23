@@ -3,6 +3,7 @@
 import urllib.request
 import urllib.error
 import urllib.parse
+import requests
 from PIL import Image
 
 
@@ -38,7 +39,8 @@ class ImageHandler(object):
         return False
 
     def get_length(self):
-        length = self.r.get_header("Content-Length")
+        req = requests.head(self.url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:43.0) Gecko/20100101 Firefox/43.0"})
+        length = r.headers.get("content-length")
         if length:
             return length
         return False
