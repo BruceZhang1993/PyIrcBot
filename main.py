@@ -124,26 +124,26 @@ class MyBot(irc.bot.SingleServerIRCBot):
                         repoforks = gh.get_forkscount()
                         repoissues = gh.get_openissuecount()
                         repodesc = gh.get_desciption()
-                        self.connection.privmsg(self.channel, "↑↑ [ GayHub Repo ] Name: %s Owner: %s Desc: %s Stars: %d Forks: %d OpenIssues: %d ↑↑" % (reponame, repoowner, repodesc, repostars, repoforks, repoissues))
+                        self.connection.privmsg(self.channel, "↑↑ [ GayHub ] 项目名称: %s | 拥有者/组织: %s | 项目描述: %s | %d ★ %d forks | %d open issues ↑↑" % (reponame, repoowner, repodesc, repostars, repoforks, repoissues))
                     except Exception:
                         pass
                 elif self.is_image(word):
                     image = ImageHandler(word)
                     imtype = image.get_format()
                     imsize = image.get_size("%W x %H")
-                    # fsize = 0
-                    # if image.get_length():
-                    #     fsize = image.get_length() / 1024
+                    fsize = 0
+                    if image.get_length():
+                        fsize = image.get_length() / 1024.0
                     if imtype and imsize:
                         self.connection.privmsg(
                             self.channel,
-                            "↑↑ [ 图片信息 ] 文件类型： %s  图片尺寸： %s  ↑↑" % (imtype, imsize))
+                            "↑↑ [ 图片信息 ] 格式： %s | 尺寸： %s | 文件大小： %.2f KB ↑↑" % (imtype, imsize, fsize))
                 else:
                     (title, chst) = self.get_title(word)
                     if title:
                         try:
                             self.connection.privmsg(self.channel,
-                                                    "↑↑ [ 网页信息 ] 标题：%s 页面编码：%s ↑↑" % (title, chst.upper()))
+                                                    "↑↑ [ 网页信息 ] 标题：%s | 页面编码：%s ↑↑" % (title, chst.upper()))
                         except irc.client.InvalidCharacters:
                             pass
 
