@@ -168,11 +168,11 @@ class MyBot(irc.bot.SingleServerIRCBot):
             return (matches.group(1), matches.group(2))
 
     def is_nemusic(self, url):
-        matches = re.match(r'^https?:\/\/music\.163\.com\/#\/song\?id\=(\d+)', url)
+        matches = re.match(r'^http\:\/\/music\.163\.com\/#\/(m\/)?song\?id\=(\d+)', url)
         if not matches:
             return False
         else:
-            return matches.group(1)
+            return matches.group(2)
 
     def is_image(self, url):
         # return False
