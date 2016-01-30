@@ -104,7 +104,16 @@ class MyBot(irc.bot.SingleServerIRCBot):
     def on_privmsg(self, c, e):
         pass
 
+    def is_bot(self, nick):
+        known_bots = ["varia", "variation", "Airi", "Fedev", "geordi", "momokoirc"]
+        if nick in known_bots or re.match(r'bot$', nick, re.IGNORECASE):
+            return True
+        return False
+
     def on_pubmsg(self, c, e):
+        nick = e.source.nick
+        if is_bot(nick):
+            break
         self.url_detect(e.arguments[0])
         # Following condition only matches when $ at the beginning
         if e.arguments[0][0] == "$":
