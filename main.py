@@ -42,11 +42,12 @@ from random import randint
 from titlehandler import TitleHandler
 from githubhandler import GithubHandler
 import ngender
+from musichandler import netease
 
 
 class MyBot(irc.bot.SingleServerIRCBot):
 
-    version = "20160123"
+    version = "20160130"
 
     def __init__(self, channel, nickname, server, port, admins):
         irc.bot.SingleServerIRCBot.__init__(self, [(server, port)],
@@ -104,17 +105,18 @@ class MyBot(irc.bot.SingleServerIRCBot):
         pass
 
     def on_pubmsg(self, c, e):
-        self.url_detect(e.arguments[0])
         # Following condition only matches when $ at the beginning
         if e.arguments[0][0] == "$":
             a = e.arguments[0][1:]
             self.do_command(e, a)
+        self.url_detect(e.arguments[0])
 
     def url_detect(self, msg):
         words = msg.split()
         for word in words:
             if self.is_url(word):
                 isrepo = self.is_ghrepo(word)
+                isnemusic = self.is_nemusic(word)
                 if isrepo:
                     (user, repo) = isrepo
                     try:
@@ -126,9 +128,14 @@ class MyBot(irc.bot.SingleServerIRCBot):
                         repoforks = gh.get_forkscount()
                         repoissues = gh.get_openissuecount()
                         repodesc = gh.get_desciption()
-                        self.connection.privmsg(self.channel, "↑↑ [ GayHub ] 项目名称: %s | 拥有者/组织: %s | 项目描述: %s | %d ★ %d forks | %d open issues ↑↑" % (reponame, repoowner, repodesc, repostars, repoforks, repoissues))
+                        self.connection.privmsg(self.channel, "↑↑ [ Gayhub ] 项目: %s | 拥有者/组织: %s | %s | %d ★ | %d open issues ↑↑" % (reponame, repoowner, repodesc, repostars, repoissues))
                     except Exception:
                         pass
+                elif isnemusic:
+                    musicid = isnemusic
+                    (title, singer, url) = netease(musicid)
+                    if title and singer:
+                        self.connection.privmsg(self.channel, "↑↑ [ 网易云音乐 ] %s - %s ↑↑" % (singer, title))
                 elif self.is_image(word):
                     image = ImageHandler(word)
                     imtype = image.get_format()
@@ -140,13 +147,13 @@ class MyBot(irc.bot.SingleServerIRCBot):
                     if imtype and imsize:
                         self.connection.privmsg(
                             self.channel,
-                            "↑↑ [ 图片信息 ] 格式： %s | 尺寸： %s | 文件大小： %.2f KB ↑↑" % (imtype, imsize, fsize))
+                            "↑↑ [ 图片信息 ] %s | %s | %.2f KB ↑↑" % (imtype, imsize, fsize))
                 else:
                     (title, chst) = self.get_title(word)
                     if title:
                         try:
                             self.connection.privmsg(self.channel,
-                                                    "↑↑ [ 网页信息 ] 标题：%s | 页面编码：%s ↑↑" % (title, chst.upper()))
+                                                    "↑↑ [ 网页标题 ] %s ↑↑" % title)
                         except irc.client.InvalidCharacters:
                             pass
 
@@ -159,6 +166,13 @@ class MyBot(irc.bot.SingleServerIRCBot):
             return False
         else:
             return (matches.group(1), matches.group(2))
+
+    def is_nemusic(self, url):
+        matches = re.match(r'^https?:\/\/music\.163\.com\/#\/song\?id\=(\d+)', url)
+        if not matches:
+            return False
+        else:
+            return matches.group(1)
 
     def is_image(self, url):
         # return False
