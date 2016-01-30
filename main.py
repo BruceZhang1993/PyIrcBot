@@ -105,11 +105,11 @@ class MyBot(irc.bot.SingleServerIRCBot):
         pass
 
     def on_pubmsg(self, c, e):
+        self.url_detect(e.arguments[0])
         # Following condition only matches when $ at the beginning
         if e.arguments[0][0] == "$":
             a = e.arguments[0][1:]
             self.do_command(e, a)
-        self.url_detect(e.arguments[0])
 
     def url_detect(self, msg):
         words = msg.split()
