@@ -113,7 +113,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
     def on_pubmsg(self, c, e):
         nick = e.source.nick
         if is_bot(nick):
-            break
+            return
         self.url_detect(e.arguments[0])
         # Following condition only matches when $ at the beginning
         if e.arguments[0][0] == "$":
