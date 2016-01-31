@@ -101,6 +101,9 @@ class MyBot(irc.bot.SingleServerIRCBot):
         c.join(self.channel)
         self.timer.start()
 
+    def on_kick(self, c, e):
+        c.join(self.channel)
+
     def on_privmsg(self, c, e):
         pass
 
