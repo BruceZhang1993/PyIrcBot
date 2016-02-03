@@ -26,7 +26,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 import sys
-import subprocess
 import irc.bot
 import irc.strings
 from irc.client import ip_numstr_to_quad
@@ -34,9 +33,7 @@ import json
 from time import strftime
 from timeloop import TimeLoop
 import re
-from bs4 import BeautifulSoup
 import requests
-import chardet
 from imagehandler import ImageHandler
 from random import randint
 from titlehandler import TitleHandler
@@ -108,7 +105,8 @@ class MyBot(irc.bot.SingleServerIRCBot):
         pass
 
     def is_bot(self, nick):
-        known_bots = ["varia", "variation", "Airi", "Fedev", "geordi", "momokoirc"]
+        known_bots = [
+            "varia", "variation", "Airi", "Fedev", "geordi", "momokoirc"]
         if nick in known_bots or re.match(r'bot$', nick, re.IGNORECASE):
             return True
         return False
@@ -137,17 +135,18 @@ class MyBot(irc.bot.SingleServerIRCBot):
                         repoowner = gh.get_owner()
                         # repowatches = gh.get_watchcount()
                         repostars = gh.get_starcount()
-                        repoforks = gh.get_forkscount()
                         repoissues = gh.get_openissuecount()
                         repodesc = gh.get_desciption()
-                        self.connection.privmsg(self.channel, "↑↑ [ Gayhub ] 项目: %s | 拥有者/组织: %s | %s | %d ★ | %d open issues ↑↑" % (reponame, repoowner, repodesc, repostars, repoissues))
+                        self.connection.privmsg(self.channel, "↑↑ [ Gayhub ] 项目: %s | 拥有者/组织: %s | %s | %d ★ | %d open issues ↑↑" % (
+                            reponame, repoowner, repodesc, repostars, repoissues))
                     except Exception:
                         pass
                 elif isnemusic:
                     musicid = isnemusic
                     (title, singer, url) = netease(musicid)
                     if title and singer:
-                        self.connection.privmsg(self.channel, "↑↑ [ 网易云音乐 ] %s - %s ↑↑" % (singer, title))
+                        self.connection.privmsg(
+                            self.channel, "↑↑ [ 网易云音乐 ] %s - %s ↑↑" % (singer, title))
                 elif self.is_image(word):
                     image = ImageHandler(word)
                     imtype = image.get_format()
@@ -173,14 +172,16 @@ class MyBot(irc.bot.SingleServerIRCBot):
         return re.match(r'^https?:\/\/', url)
 
     def is_ghrepo(self, url):
-        matches = re.match(r'^https?:\/\/github\.com\/([\w\-]+)\/([\w\-]+)\/?$', url)
+        matches = re.match(
+            r'^https?:\/\/github\.com\/([\w\-]+)\/([\w\-]+)\/?$', url)
         if not matches:
             return False
         else:
             return (matches.group(1), matches.group(2))
 
     def is_nemusic(self, url):
-        matches = re.match(r'^http\:\/\/music\.163\.com\/#\/(m\/)?song\?id\=(\d+)', url)
+        matches = re.match(
+            r'^http\:\/\/music\.163\.com\/#\/(m\/)?song\?id\=(\d+)', url)
         if not matches:
             return False
         else:
@@ -206,7 +207,6 @@ class MyBot(irc.bot.SingleServerIRCBot):
         th = TitleHandler(url)
         return (th.get_title(), th.get_charset())
 
-
     def on_dccmsg(self, c, e):
         # non-chat DCC messages are raw bytes; decode as text
         text = e.arguments[0].decode('utf-8')
@@ -226,7 +226,6 @@ class MyBot(irc.bot.SingleServerIRCBot):
 
     def do_command(self, e, cmd):
         nick = e.source.nick
-        c = self.connection
         cmd_args = cmd.split()
         cmd = cmd_args[0]
         args = " ".join(cmd_args[1:])
@@ -249,7 +248,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
             confidence = 0
 
         simplecommands = {
-            "help": "[ 帮助信息 ] 本bot拥有以下强力技能： say time gender version send2qq(testing) <-- 主动技能； 整点消息 网页信息 图片信息 Github项目信息 [更多功能开发中...] <-- 被动技能",
+            "help": "[ 帮助信息 ] 本bot拥有以下强力技能： say time gender version <-- 主动技能； 整点消息 网页信息 图片信息 Github项目信息 [更多功能开发中...] <-- 被动技能",
             "version": "PyIrcBot | https://github.com/BruceZhang1993/PyIrcBot | Version: %s" % self.version,
             "say": "%s" % (args),
             "time": "%s: 当前时间： %s" % (nick, ctime),
@@ -266,9 +265,12 @@ class MyBot(irc.bot.SingleServerIRCBot):
             else:
                 c.privmsg(self.channel,
                           "%s: 就不粗去，喵~" % nick)
-        elif cmd == "send2qq":
-            requests.get("http://localhost:3200/send?type=group&to=Test&msg=" + args)
-            c.privmsg(self.channel, "%s: 消息已同步至QQ群" % nick)
+        elif cmd == "fast-lqy":
+            c.privmsg(self.channel, ".LQYMGTF")
+        # elif cmd == "send2qq":
+        #     requests.get(
+        #         "http://localhost:3200/send?type=group&to=Test&msg=" + args)
+        #     c.privmsg(self.channel, "%s: 消息已同步至QQ群" % nick)
         else:
             return False
 
