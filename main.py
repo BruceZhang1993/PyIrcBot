@@ -49,7 +49,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
     def __init__(self, channels, nickname, server, port, admins):
         irc.bot.SingleServerIRCBot.__init__(self, [(server, port)],
                                             nickname, nickname)
-        self.channels = channels
+        self.chs = channels
         self.timer = TimeLoop(1, self.time_func)
         self.admins = admins
         # TODO:10 More channels support
@@ -95,7 +95,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
         c.nick(c.get_nickname() + "_")
 
     def on_welcome(self, c, e):
-        for channel in self.channels:
+        for channel in self.chs:
             c.join(channel)
         self.timer.start()
 
