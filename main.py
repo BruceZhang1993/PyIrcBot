@@ -264,13 +264,13 @@ class MyBot(irc.bot.SingleServerIRCBot):
 
         c = self.connection
         if cmd in simplecommands.keys():
-            c.privmsg(self.channel, simplecommands[cmd])
+            c.privmsg(channel, simplecommands[cmd])
         elif cmd == "quit":
             if nick in self.admins and user == nick:
                 c.quit("admin %s asked me to quit." % nick)
                 sys.exit(0)
             else:
-                c.privmsg(self.channel,
+                c.privmsg(channel,
                           "%s: 就不粗去，喵~" % nick)
         # elif cmd == "fast-lqy":
         #     c.privmsg(self.channel, ".LQYMGTF")
