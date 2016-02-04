@@ -114,7 +114,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
 
     def on_pubmsg(self, c, e):
         nick = e.source.nick
-        channel = e.arguments[1]
+        channel = e.target
         if self.is_bot(nick):
             return
         self.url_detect(e.arguments[0], channel)
@@ -229,7 +229,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
     def do_command(self, e, cmd):
         nick = e.source.nick
         user = e.source.user
-        channel = e.source.arguments[1]
+        channel = e.target
         cmd_args = cmd.split()
         cmd = cmd_args[0]
         args = " ".join(cmd_args[1:])
