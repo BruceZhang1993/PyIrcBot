@@ -235,7 +235,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
         args = " ".join(cmd_args[1:])
         self.execute_command(cmd, args, nick, user, channel)
 
-    def get_version():
+    def get_version(self):
         return "PyIrcBot | https://github.com/BruceZhang1993/PyIrcBot | Version: %s" % self.version
 
     def execute_command(self, cmd, args, nick, user, channel):
