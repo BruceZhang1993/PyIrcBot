@@ -46,10 +46,10 @@ class MyBot(irc.bot.SingleServerIRCBot):
 
     version = "20160130"
 
-    def __init__(self, channel, nickname, server, port, admins):
+    def __init__(self, channels, nickname, server, port, admins):
         irc.bot.SingleServerIRCBot.__init__(self, [(server, port)],
                                             nickname, nickname)
-        self.channel = channel
+        self.channels = channels
         self.timer = TimeLoop(1, self.time_func)
         self.admins = admins
         # TODO:10 More channels support
@@ -95,7 +95,8 @@ class MyBot(irc.bot.SingleServerIRCBot):
         c.nick(c.get_nickname() + "_")
 
     def on_welcome(self, c, e):
-        c.join(self.channel)
+        for channel in self.channels:
+            c.join(channel)
         self.timer.start()
 
     def on_kick(self, c, e):
@@ -113,15 +114,16 @@ class MyBot(irc.bot.SingleServerIRCBot):
 
     def on_pubmsg(self, c, e):
         nick = e.source.nick
+        channel = e.arguments[1]
         if self.is_bot(nick):
             return
-        self.url_detect(e.arguments[0])
+        self.url_detect(e.arguments[0], channel)
         # Following condition only matches when $ at the beginning
         if e.arguments[0][0] == "$":
             a = e.arguments[0][1:]
             self.do_command(e, a)
 
-    def url_detect(self, msg):
+    def url_detect(self, msg, channel):
         words = msg.split()
         for word in words:
             if self.is_url(word):
@@ -137,7 +139,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
                         repostars = gh.get_starcount()
                         repoissues = gh.get_openissuecount()
                         repodesc = gh.get_desciption()
-                        self.connection.privmsg(self.channel, "↑↑ [ Gayhub ] 项目: %s | 拥有者/组织: %s | %s | %d ★ | %d open issues ↑↑" % (
+                        self.connection.privmsg(channel, "↑↑ [ Gayhub ] 项目: %s | 拥有者/组织: %s | %s | %d ★ | %d open issues ↑↑" % (
                             reponame, repoowner, repodesc, repostars, repoissues))
                     except Exception:
                         pass
@@ -146,7 +148,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
                     (title, singer, url) = netease(musicid)
                     if title and singer:
                         self.connection.privmsg(
-                            self.channel, "↑↑ [ 网易云音乐 ] %s - %s ↑↑" % (singer, title))
+                            channel, "↑↑ [ 网易云音乐 ] %s - %s ↑↑" % (singer, title))
                 elif self.is_image(word):
                     image = ImageHandler(word)
                     imtype = image.get_format()
@@ -157,13 +159,13 @@ class MyBot(irc.bot.SingleServerIRCBot):
                         fsize = length / 1024.0
                     if imtype and imsize:
                         self.connection.privmsg(
-                            self.channel,
+                            channel,
                             "↑↑ [ 图片信息 ] %s | %s | %.2f KB ↑↑" % (imtype, imsize, fsize))
                 else:
                     (title, chst) = self.get_title(word)
                     if title:
                         try:
-                            self.connection.privmsg(self.channel,
+                            self.connection.privmsg(channel,
                                                     "↑↑ [ 网页标题 ] %s ↑↑" % title)
                         except irc.client.InvalidCharacters:
                             pass
@@ -226,12 +228,17 @@ class MyBot(irc.bot.SingleServerIRCBot):
 
     def do_command(self, e, cmd):
         nick = e.source.nick
+        user = e.source.user
+        channel = e.source.arguments[1]
         cmd_args = cmd.split()
         cmd = cmd_args[0]
         args = " ".join(cmd_args[1:])
-        self.execute_command(cmd, args, nick, self.channel)
+        self.execute_command(cmd, args, nick, user, channel)
 
-    def execute_command(self, cmd, args, nick, channel):
+    def get_version():
+        return "PyIrcBot | https://github.com/BruceZhang1993/PyIrcBot | Version: %s" % self.version
+
+    def execute_command(self, cmd, args, nick, user, channel):
         # DONE:0 Finish function command_string
         # TODO:0 More commands and command interface
         ctime = strftime("%Y-%m-%d %H:%M:%S")
@@ -259,14 +266,14 @@ class MyBot(irc.bot.SingleServerIRCBot):
         if cmd in simplecommands.keys():
             c.privmsg(self.channel, simplecommands[cmd])
         elif cmd == "quit":
-            if nick in self.admins:
+            if nick in self.admins and user == nick:
                 c.quit("admin %s asked me to quit." % nick)
                 sys.exit(0)
             else:
                 c.privmsg(self.channel,
                           "%s: 就不粗去，喵~" % nick)
-        elif cmd == "fast-lqy":
-            c.privmsg(self.channel, ".LQYMGTF")
+        # elif cmd == "fast-lqy":
+        #     c.privmsg(self.channel, ".LQYMGTF")
         # elif cmd == "send2qq":
         #     requests.get(
         #         "http://localhost:3200/send?type=group&to=Test&msg=" + args)
@@ -281,7 +288,7 @@ def main():
     try:
         fp = open('config.json', "r")
         config = json.load(fp)
-        channel = config["channel"]
+        channels = config["channel"]
         nickname = config["nick"]
         server = config["network"]
         port = config["port"]
@@ -293,7 +300,7 @@ def main():
     finally:
         if fp:
             fp.close()
-    bot = MyBot(channel, nickname, server, port, admins)
+    bot = MyBot(channels, nickname, server, port, admins)
     bot.start()
 
 if __name__ == "__main__":
