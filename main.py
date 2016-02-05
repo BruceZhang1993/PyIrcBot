@@ -88,7 +88,8 @@ class MyBot(irc.bot.SingleServerIRCBot):
         sec = int(strftime("%S"))
         if minute == 0 and sec == 0:
             choose = randint(0, len(smileys) - 1)
-            self.connection.action(self.channel, smileys[choose] +
+            for channel in self.chs:
+                self.connection.action(channel, smileys[choose] +
                                    msgs[hour])
 
     def on_nicknameinuse(self, c, e):
