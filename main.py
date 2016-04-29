@@ -118,11 +118,14 @@ class MyBot(irc.bot.SingleServerIRCBot):
         channel = e.target
         if self.is_bot(nick):
             return
-        self.url_detect(e.arguments[0], channel)
-        # Following condition only matches when $ at the beginning
-        if e.arguments[0][0] == "$":
-            a = e.arguments[0][1:]
-            self.do_command(e, a)
+        try:
+            self.url_detect(e.arguments[0], channel)
+            # Following condition only matches when $ at the beginning
+            if e.arguments[0][0] == "$":
+                a = e.arguments[0][1:]
+                self.do_command(e, a)
+        except UnicodeDecodeError:
+            pass
 
     def url_detect(self, msg, channel):
         words = msg.split()
