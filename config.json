@@ -1,7 +1,0 @@
-{
-  "nick": "UrlHelper",
-  "network": "irc.freenode.net",
-  "port": 6667,
-  "channel": ["#linuxba", "#LiuYanBot"],
-  "admins": []
-}
