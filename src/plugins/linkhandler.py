@@ -73,7 +73,7 @@ def _colored(text, forecolor):
 
 
 def _is_httplink(words):
-    return re.match(r'https?://', words)
+    return re.match(r'^https?://', words)
 
 
 def _is_localnet(words):
