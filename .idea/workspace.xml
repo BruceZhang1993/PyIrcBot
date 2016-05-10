@@ -32,8 +32,8 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="393">
-              <caret line="103" column="54" selection-start-line="103" selection-start-column="54" selection-end-line="103" selection-end-column="54" />
+            <state relative-caret-position="177">
+              <caret line="85" column="22" selection-start-line="85" selection-start-column="22" selection-end-line="85" selection-end-column="22" />
               <folding>
                 <element signature="e#182#196#0" expanded="true" />
               </folding>
@@ -113,8 +113,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="91" />
-    <option name="y" value="53" />
+    <option name="x" value="61" />
+    <option name="y" value="18" />
     <option name="width" value="1104" />
     <option name="height" value="688" />
   </component>
@@ -624,7 +624,14 @@
       <option name="project" value="LOCAL" />
       <updated>1462868733047</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="catch excepts">
+      <created>1462869032632</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1462869032632</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -633,7 +640,7 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="91" y="53" width="1104" height="688" extended-state="0" />
+    <frame x="61" y="18" width="1104" height="688" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25283018" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -702,7 +709,8 @@
     <MESSAGE value="bug fix" />
     <MESSAGE value="color for title" />
     <MESSAGE value="irc colors" />
-    <option name="LAST_COMMIT_MESSAGE" value="irc colors" />
+    <MESSAGE value="catch excepts" />
+    <option name="LAST_COMMIT_MESSAGE" value="catch excepts" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -875,8 +883,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="393">
-          <caret line="103" column="54" selection-start-line="103" selection-start-column="54" selection-end-line="103" selection-end-column="54" />
+        <state relative-caret-position="177">
+          <caret line="85" column="22" selection-start-line="85" selection-start-column="22" selection-end-line="85" selection-end-column="22" />
           <folding>
             <element signature="e#182#196#0" expanded="true" />
           </folding>

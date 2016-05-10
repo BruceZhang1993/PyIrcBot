@@ -7,6 +7,7 @@
 # -----------------------------
 
 import irc.bot
+import irc.client
 import os
 import json
 import logging
