@@ -8,3 +8,4 @@
 - requests
 - Pillow
 - BeautifulSoup4
+- html5lib
