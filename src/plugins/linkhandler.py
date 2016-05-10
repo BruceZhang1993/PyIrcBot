@@ -90,7 +90,7 @@ def _is_localnet(words):
 def _get_url_info(url):
     global logger
     try:
-        req = requests.head(url, headers=fake_headers, timeout=10)
+        req = requests.head(url, headers=fake_headers, timeout=20)
         return req.headers.get("content-type", ""), req.headers.get("content-length", 0)
     except:
         logger.warning("Error getting URL info.")
@@ -100,7 +100,7 @@ def _get_url_info(url):
 def _get_url_title(url):
     global logger
     try:
-        req = requests.get(url, headers=fake_headers, timeout=10)
+        req = requests.get(url, headers=fake_headers, timeout=20)
         soup = BeautifulSoup(req.content, "html5lib")
         if soup and soup.title:
             return soup.title.string
