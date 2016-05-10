@@ -41,6 +41,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
         signal.signal(signal.SIGINT, self._quit)
 
     def _quit(self):
+        logger.info("Bot interuptted from console.")
         self.die("Bot stopped from console.")
 
     def on_nicknameinuse(self, c, e):
