@@ -11,15 +11,15 @@ import sys
 import urllib.request
 import urllib.error
 import urllib.parse
+import logging
 from PIL import Image
 sys.path.append("../")
 from bs4 import BeautifulSoup
 
 fake_headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:46.0) Gecko/20100101 Firefox/46.0"}
-
+logger = logging.getLogger("ircbot")
 
 def linkhandler(line, nick, channel):
-    global logger
     words = line.split()
     for word in words:
         if _is_httplink(word) and not _is_localnet(word):
@@ -74,10 +74,10 @@ def _get_url_info(url):
         req = requests.head(url, headers=fake_headers, timeout=10)
         return req.headers.get("content-type", ""), req.headers.get("content-length", 0)
     except requests.ConnectTimeout:
-        #logger.warning("Connection timeout while getting URL info.")
+        logger.warning("Connection timeout while getting URL info.")
         return "", -1
     except:
-        #logger.warning("Error getting URL info.")
+        logger.warning("Error getting URL info.")
         return "", 0
 
 
@@ -89,10 +89,10 @@ def _get_url_title(url):
         if soup and soup.title:
             return soup.title.string
     except requests.ConnectTimeout:
-        #logger.warning("Connection timeout while getting URL title.")
+        logger.warning("Connection timeout while getting URL title.")
         return ""
     except:
-        #logger.warning("Error getting URL title.")
+        logger.warning("Error getting URL title.")
         return ""
 
 
