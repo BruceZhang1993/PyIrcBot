@@ -15,7 +15,6 @@ import logging
 from PIL import Image
 sys.path.append("../")
 from bs4 import BeautifulSoup
-from termcolor import colored
 
 fake_headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:46.0) Gecko/20100101 Firefox/46.0"}
 logger = logging.getLogger("ircbot")
@@ -28,21 +27,21 @@ def linkhandler(line, nick, channel):
             if ftype == "" and length == 0:
                 return ""
             elif length == -1:
-                return colored("Connection Timeout.", "yellow")
+                return _colored("Connection Timeout.", "yellow")
             elif ftype.startswith("text/html"):
                 title = _get_url_title(word)
                 if title:
-                    return colored("↑↑ Title: ", "blue") + colored(title, "yellow") + colored(" ↑↑", "blue")
+                    return _colored("↑↑ Title: ", "blue") + _colored(title, "yellow") + _colored(" ↑↑", "blue")
                 else:
                     size, unit = _parse_filesize(length)
-                    return colored("↑↑ [ %s ] %.2f%s ↑↑" % (ftype, size, unit), "blue")
+                    return _colored("↑↑ [ %s ] %.2f%s ↑↑" % (ftype, size, unit), "blue")
             elif ftype.startswith("image"):
                 size, unit = _parse_filesize(length)
                 imgtype, reso = _get_img_reso(word)
-                return colored("↑↑ [ %s (%s) ] %.2f%s %s ↑↑" % (imgtype, ftype, size, unit, reso), "blue")
+                return _colored("↑↑ [ %s (%s) ] %.2f%s %s ↑↑" % (imgtype, ftype, size, unit, reso), "blue")
             else:
                 size, unit = _parse_filesize(length)
-                return colored("↑↑ [ %s ] %.2f%s ↑↑" % (ftype, size, unit), "blue")
+                return _colored("↑↑ [ %s ] %.2f%s ↑↑" % (ftype, size, unit), "blue")
 
 
 def _parse_filesize(bytes):
@@ -53,6 +52,25 @@ def _parse_filesize(bytes):
         bytes /= 1024.0
         index += 1
     return bytes, sizes[index]
+
+
+def _colored(text, forecolor):
+    colordict = {
+        "white": "00",
+        "black": "01",
+        "blue": "02",
+        "green": "03",
+        "red": "04",
+        "brown": "05",
+        "purple": "06",
+        "orange": "07",
+        "yellow": "08"
+    }
+    if forecolor.lower() in colordict.keys():
+        return "\x03%s%s\x03" % (colordict.get(forecolor.lower()), text)
+    else:
+        return text
+
 
 
 def _is_httplink(words):
