@@ -72,29 +72,37 @@ class MyBot(irc.bot.SingleServerIRCBot):
     def on_privmsg(self, c, e):
         nm = e.source
         line = e.arguments[0]
-        if line.startswith(PREFIX):
-            commandline = line.strip(PREFIX).strip()
-            msg = self.exec_command(commandline)
-            if msg:
-                c.privmsg(nm.nick, msg)
-        else:
-            msg = self.passive_exec(line, nm.nick)
-            if msg:
-                c.privmsg(nm.nick, msg)
+        try:
+            if line.startswith(PREFIX):
+                commandline = line.strip(PREFIX).strip()
+                msg = self.exec_command(commandline)
+                if msg:
+                    c.privmsg(nm.nick, msg)
+            else:
+                msg = self.passive_exec(line, nm.nick)
+                if msg:
+                    c.privmsg(nm.nick, msg)
+        except irc.client.InvalidCharacters:
+            logger.warning("Invalid characters sent.")
+            _do_nothing()
 
     def on_pubmsg(self, c, e):
         nick = e.source.nick
         channel = e.target
         line = e.arguments[0]
-        if line.startswith(PREFIX):
-            commandline = line.strip(PREFIX).strip()
-            msg = self.exec_command(commandline)
-            if msg:
-                c.privmsg(channel, "%s: %s" % (nick, msg))
-        else:
-            msg = self.passive_exec(line, nick, channel)
-            if msg:
-                c.privmsg(channel, "%s" % msg)
+        try:
+            if line.startswith(PREFIX):
+                commandline = line.strip(PREFIX).strip()
+                msg = self.exec_command(commandline)
+                if msg:
+                    c.privmsg(channel, "%s: %s" % (nick, msg))
+            else:
+                msg = self.passive_exec(line, nick, channel)
+                if msg:
+                    c.privmsg(channel, "%s" % msg)
+        except irc.client.InvalidCharacters:
+            logger.warning("Invalid characters sent.")
+            _do_nothing()
 
     def on_dccmsg(self, c, e):
         # non-chat DCC messages are raw bytes; decode as text
