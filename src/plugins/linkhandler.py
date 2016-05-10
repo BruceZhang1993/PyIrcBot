@@ -15,6 +15,7 @@ import logging
 from PIL import Image
 sys.path.append("../")
 from bs4 import BeautifulSoup
+from termcolor import colored
 
 fake_headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:46.0) Gecko/20100101 Firefox/46.0"}
 logger = logging.getLogger("ircbot")
@@ -27,21 +28,21 @@ def linkhandler(line, nick, channel):
             if ftype == "" and length == 0:
                 return ""
             elif length == -1:
-                return "Connection Timeout."
+                return colored("Connection Timeout.", "yellow")
             elif ftype.startswith("text/html"):
                 title = _get_url_title(word)
                 if title:
-                    return "↑↑ Title: " + title + " ↑↑"
+                    return colored("↑↑ Title: ", "blue") + colored(title, "yellow") + colored(" ↑↑", "blue")
                 else:
                     size, unit = _parse_filesize(length)
-                    return "↑↑ [ %s ] %.2f%s ↑↑" % (ftype, size, unit)
+                    return colored("↑↑ [ %s ] %.2f%s ↑↑" % (ftype, size, unit), "blue")
             elif ftype.startswith("image"):
                 size, unit = _parse_filesize(length)
                 imgtype, reso = _get_img_reso(word)
-                return "↑↑ [ %s (%s) ] %.2f%s %s ↑↑" % (imgtype, ftype, size, unit, reso)
+                return colored("↑↑ [ %s (%s) ] %.2f%s %s ↑↑" % (imgtype, ftype, size, unit, reso), "blue")
             else:
                 size, unit = _parse_filesize(length)
-                return "↑↑ [ %s ] %.2f%s ↑↑" % (ftype, size, unit)
+                return colored("↑↑ [ %s ] %.2f%s ↑↑" % (ftype, size, unit), "blue")
 
 
 def _parse_filesize(bytes):
