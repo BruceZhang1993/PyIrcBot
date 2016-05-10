@@ -44,8 +44,8 @@
       <file leaf-file-name="linkhandler.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/plugins/linkhandler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1527">
-              <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
+            <state relative-caret-position="51">
+              <caret line="33" column="83" selection-start-line="33" selection-start-column="83" selection-end-line="33" selection-end-column="83" />
               <folding>
                 <element signature="e#181#190#0" expanded="true" />
               </folding>
@@ -113,8 +113,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="94" />
-    <option name="y" value="15" />
+    <option name="x" value="91" />
     <option name="width" value="1104" />
     <option name="height" value="688" />
   </component>
@@ -603,7 +602,14 @@
       <option name="project" value="LOCAL" />
       <updated>1462853809670</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="irc colors">
+      <created>1462863417142</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1462863417142</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -612,7 +618,7 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="94" y="15" width="1104" height="688" extended-state="0" />
+    <frame x="91" y="0" width="1104" height="688" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25283018" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -854,8 +860,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/plugins/linkhandler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1527">
-          <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
+        <state relative-caret-position="51">
+          <caret line="33" column="83" selection-start-line="33" selection-start-column="83" selection-end-line="33" selection-end-column="83" />
           <folding>
             <element signature="e#181#190#0" expanded="true" />
           </folding>
