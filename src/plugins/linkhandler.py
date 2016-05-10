@@ -46,7 +46,7 @@ def linkhandler(line, nick, channel):
 
 def _parse_filesize(bytes):
     bytes = float(bytes)
-    sizes = ["Bytes", "KB", "GB", "TB"]
+    sizes = ["Bytes", "KB", "MB", "GB", "TB"]
     index = 0
     while bytes > 1000:
         bytes /= 1024.0
