@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="29cc1348-5d14-4143-8c2f-6f000bf2482a" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main.py" afterPath="$PROJECT_DIR$/src/main.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/plugins/linkhandler.py" afterPath="$PROJECT_DIR$/src/plugins/linkhandler.py" />
     </list>
     <ignored path="PythonBot.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,11 +29,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="42" column="30" selection-start-line="42" selection-start-column="30" selection-end-line="42" selection-end-column="30" />
+            <state relative-caret-position="792">
+              <caret line="44" column="45" selection-start-line="44" selection-start-column="45" selection-end-line="44" selection-end-column="45" />
               <folding>
                 <element signature="e#182#196#0" expanded="true" />
               </folding>
@@ -41,11 +41,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="linkhandler.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="linkhandler.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/plugins/linkhandler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1329">
-              <caret line="100" column="38" selection-start-line="100" selection-start-column="38" selection-end-line="100" selection-end-column="38" />
+            <state relative-caret-position="285">
+              <caret line="39" column="51" selection-start-line="39" selection-start-column="51" selection-end-line="39" selection-end-column="51" />
               <folding>
                 <element signature="e#181#190#0" expanded="true" />
               </folding>
@@ -101,8 +101,8 @@
         <option value="$PROJECT_DIR$/src/plugins/__init__.py" />
         <option value="$PROJECT_DIR$/src/plugin.py" />
         <option value="$PROJECT_DIR$/logger.py" />
-        <option value="$PROJECT_DIR$/src/plugins/linkhandler.py" />
         <option value="$PROJECT_DIR$/src/main.py" />
+        <option value="$PROJECT_DIR$/src/plugins/linkhandler.py" />
       </list>
     </option>
   </component>
@@ -113,8 +113,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="326" />
-    <option name="y" value="25" />
+    <option name="x" value="134" />
+    <option name="y" value="26" />
     <option name="width" value="1104" />
     <option name="height" value="688" />
   </component>
@@ -550,7 +550,14 @@
       <option name="project" value="LOCAL" />
       <updated>1462849926391</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="console quit fix">
+      <created>1462849991048</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1462849991048</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -559,7 +566,7 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="326" y="25" width="1104" height="688" extended-state="0" />
+    <frame x="134" y="26" width="1104" height="688" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25283018" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -623,7 +630,8 @@
     <MESSAGE value="fix title error" />
     <MESSAGE value="update README" />
     <MESSAGE value="logger fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="logger fix" />
+    <MESSAGE value="console quit fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="console quit fix" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -784,22 +792,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/plugins/linkhandler.py">
+    <entry file="file://$PROJECT_DIR$/src/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1329">
-          <caret line="100" column="38" selection-start-line="100" selection-start-column="38" selection-end-line="100" selection-end-column="38" />
+        <state relative-caret-position="792">
+          <caret line="44" column="45" selection-start-line="44" selection-start-column="45" selection-end-line="44" selection-end-column="45" />
           <folding>
-            <element signature="e#181#190#0" expanded="true" />
+            <element signature="e#182#196#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main.py">
+    <entry file="file://$PROJECT_DIR$/src/plugins/linkhandler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="42" column="30" selection-start-line="42" selection-start-column="30" selection-end-line="42" selection-end-column="30" />
+        <state relative-caret-position="285">
+          <caret line="39" column="51" selection-start-line="39" selection-start-column="51" selection-end-line="39" selection-end-column="51" />
           <folding>
-            <element signature="e#182#196#0" expanded="true" />
+            <element signature="e#181#190#0" expanded="true" />
           </folding>
         </state>
       </provider>

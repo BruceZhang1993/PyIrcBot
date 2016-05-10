@@ -33,7 +33,8 @@ def linkhandler(line, nick, channel):
                 if title:
                     return "↑↑ Title: " + title + " ↑↑"
                 else:
-                    return ""
+                    size, unit = _parse_filesize(length)
+                    return "↑↑ [ %s ] %.2f%s ↑↑" % (ftype, size, unit)
             elif ftype.startswith("image"):
                 size, unit = _parse_filesize(length)
                 imgtype, reso = _get_img_reso(word)
