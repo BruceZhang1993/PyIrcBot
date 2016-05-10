@@ -65,7 +65,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
         return False
 
     def passive_exec(self, line, nick='', channel=''):
-        if line.endswith(" #"):
+        if line.strip().endswith(" #"):
             return False
         for handler in handlerlist:
             index = handlerlist.index(handler)
