@@ -31,7 +31,7 @@ def linkhandler(line, nick, channel):
             elif ftype.startswith("text/html"):
                 title = _get_url_title(word)
                 if title:
-                    return _colored("↑↑ Title: ", "blue") + _colored(title, "orange) + _colored(" ↑↑", "blue")
+                    return _colored("↑↑ Title: ", "blue") + _colored(title, "orange") + _colored(" ↑↑", "blue")
                 else:
                     size, unit = _parse_filesize(length)
                     return _colored("↑↑ [ %s ] %.2f%s ↑↑" % (ftype, size, unit), "blue")
