@@ -65,6 +65,8 @@ class MyBot(irc.bot.SingleServerIRCBot):
         return False
 
     def passive_exec(self, line, nick='', channel=''):
+        if line[-1] == "#":
+            return False
         for handler in handlerlist:
             index = handlerlist.index(handler)
             resmsg = handlerfuncs[index](line, nick, channel)
