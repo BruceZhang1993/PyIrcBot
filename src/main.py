@@ -40,7 +40,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
         logger.info("Bot started successfully.")
         signal.signal(signal.SIGINT, self._quit)
 
-    def _quit(self):
+    def _quit(self, arg1, arg2):
         logger.info("Bot interuptted from console.")
         self.die("Bot stopped from console.")
 
