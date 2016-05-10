@@ -29,7 +29,11 @@ def linkhandler(line, nick, channel):
             elif length == -1:
                 return "Connection Timeout."
             elif ftype.startswith("text/html"):
-                return "↑↑ Title: " + _get_url_title(word) + " ↑↑"
+                title = _get_url_title(word)
+                if title:
+                    return "↑↑ Title: " + title + " ↑↑"
+                else:
+                    return ""
             elif ftype.startswith("image"):
                 size, unit = _parse_filesize(length)
                 imgtype, reso = _get_img_reso(word)
