@@ -72,7 +72,6 @@ def _colored(text, forecolor):
         return text
 
 
-
 def _is_httplink(words):
     return re.match(r'https?://', words)
 
@@ -93,9 +92,6 @@ def _get_url_info(url):
     try:
         req = requests.head(url, headers=fake_headers, timeout=10)
         return req.headers.get("content-type", ""), req.headers.get("content-length", 0)
-    except requests.ConnectTimeout:
-        logger.warning("Connection timeout while getting URL info.")
-        return "", -1
     except:
         logger.warning("Error getting URL info.")
         return "", 0
@@ -108,9 +104,6 @@ def _get_url_title(url):
         soup = BeautifulSoup(req.content, "html5lib")
         if soup and soup.title:
             return soup.title.string
-    except requests.ConnectTimeout:
-        logger.warning("Connection timeout while getting URL title.")
-        return ""
     except:
         logger.warning("Error getting URL title.")
         return ""
