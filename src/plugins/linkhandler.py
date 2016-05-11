@@ -90,7 +90,7 @@ def _is_localnet(words):
 def _get_url_info(url):
     global logger
     try:
-        req = requests.head(url, headers=fake_headers, timeout=20)
+        req = requests.head(url, headers=fake_headers, timeout=20, allow_redirects=True)
         return req.headers.get("content-type", ""), req.headers.get("content-length", 0)
     except:
         logger.warning("Error getting URL info.")
@@ -105,7 +105,7 @@ def _get_url_title(url):
         if soup and soup.title:
             return soup.title.string
     except:
-        logger.warning("Error getting URL title.")
+        logger.warning("Error getting URL title for %s" % url)
         return ""
 
 
