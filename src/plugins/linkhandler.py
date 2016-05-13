@@ -91,7 +91,13 @@ def _get_url_info(url):
     global logger
     try:
         req = requests.head(url, headers=fake_headers, timeout=20, allow_redirects=True)
-        return req.headers.get("content-type", ""), req.headers.get("content-length", 0)
+        if req.status_code == 200:
+            return req.headers.get("content-type", ""), req.headers.get("content-length", 0)
+        elif req.status_code == 405:
+            req2 = requests.get(url, headers=fake_headers, timeout=20, allow_redirects=True)
+            return req2.headers.get("content-type", ""), req.headers.get("content-length", 0)
+        else:
+            return "", 0
     except:
         logger.warning("Error getting URL info.")
         return "", 0
