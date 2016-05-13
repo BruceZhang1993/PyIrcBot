@@ -41,6 +41,7 @@ def linkhandler(line, nick, channel):
                 return _colored("↑↑ [ %s (%s) ] %.2f%s %s ↑↑" % (imgtype, ftype, size, unit, reso), "blue")
             else:
                 size, unit = _parse_filesize(length)
+
                 return _colored("↑↑ [ %s ] %.2f%s ↑↑" % (ftype, size, unit), "blue")
 
 
@@ -92,10 +93,14 @@ def _get_url_info(url):
     try:
         req = requests.head(url, headers=fake_headers, timeout=20, allow_redirects=True)
         if req.status_code == 200:
-            return req.headers.get("content-type", ""), req.headers.get("content-length", 0)
+            if req.headers.get("content-length", False):
+                return req.headers.get("content-type", "unknown"), req.headers.get("content-length", 0)
+            else:
+                req2 = requests.get(url, headers=fake_headers, timeout=20, allow_redirects=True)
+                return req2.headers.get("content-type", "unknown"), len(req2.text)
         elif req.status_code == 405:
             req2 = requests.get(url, headers=fake_headers, timeout=20, allow_redirects=True)
-            return req2.headers.get("content-type", ""), req.headers.get("content-length", 0)
+            return req2.headers.get("content-type", "unknown"), len(req2.text)
         else:
             return "", 0
     except:

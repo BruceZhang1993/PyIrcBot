@@ -44,8 +44,8 @@
       <file leaf-file-name="linkhandler.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/plugins/linkhandler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="350">
-              <caret line="101" column="62" selection-start-line="101" selection-start-column="62" selection-end-line="101" selection-end-column="62" />
+            <state relative-caret-position="422">
+              <caret line="105" column="11" selection-start-line="105" selection-start-column="11" selection-end-line="105" selection-end-column="11" />
               <folding>
                 <element signature="e#181#190#0" expanded="true" />
               </folding>
@@ -686,7 +686,14 @@
       <option name="project" value="LOCAL" />
       <updated>1463115809959</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="set method get if head is not supported">
+      <created>1463115896753</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1463115896753</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -960,8 +967,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/plugins/linkhandler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="101" column="62" selection-start-line="101" selection-start-column="62" selection-end-line="101" selection-end-column="62" />
+        <state relative-caret-position="422">
+          <caret line="105" column="11" selection-start-line="105" selection-start-column="11" selection-end-line="105" selection-end-column="11" />
           <folding>
             <element signature="e#181#190#0" expanded="true" />
           </folding>
