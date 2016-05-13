@@ -99,7 +99,7 @@ def _get_url_info(url):
         else:
             return "", 0
     except:
-        logger.warning("Error getting URL info.")
+        logger.warning("Error getting URL info for %s." % url)
         return "", 0
 
 

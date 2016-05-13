@@ -44,8 +44,8 @@
       <file leaf-file-name="linkhandler.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/plugins/linkhandler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="458">
-              <caret line="107" column="8" selection-start-line="107" selection-start-column="8" selection-end-line="107" selection-end-column="8" />
+            <state relative-caret-position="350">
+              <caret line="101" column="62" selection-start-line="101" selection-start-column="62" selection-end-line="101" selection-end-column="62" />
               <folding>
                 <element signature="e#181#190#0" expanded="true" />
               </folding>
@@ -679,7 +679,14 @@
       <option name="project" value="LOCAL" />
       <updated>1462945907208</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="set method get if head is not supported">
+      <created>1463115809959</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1463115809959</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -772,7 +779,8 @@
     <MESSAGE value="fix" />
     <MESSAGE value="add global ignore" />
     <MESSAGE value="add follow redirects" />
-    <option name="LAST_COMMIT_MESSAGE" value="add follow redirects" />
+    <MESSAGE value="set method get if head is not supported" />
+    <option name="LAST_COMMIT_MESSAGE" value="set method get if head is not supported" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -952,8 +960,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/plugins/linkhandler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="458">
-          <caret line="107" column="8" selection-start-line="107" selection-start-column="8" selection-end-line="107" selection-end-column="8" />
+        <state relative-caret-position="350">
+          <caret line="101" column="62" selection-start-line="101" selection-start-column="62" selection-end-line="101" selection-end-column="62" />
           <folding>
             <element signature="e#181#190#0" expanded="true" />
           </folding>
