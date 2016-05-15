@@ -19,6 +19,7 @@ from bs4 import BeautifulSoup
 fake_headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:46.0) Gecko/20100101 Firefox/46.0"}
 logger = logging.getLogger("ircbot")
 
+
 def linkhandler(line, nick, channel):
     words = line.split()
     for word in words:
@@ -91,17 +92,14 @@ def _is_localnet(words):
 def _get_url_info(url):
     global logger
     try:
-        req = requests.head(url, headers=fake_headers, timeout=20, allow_redirects=True)
-        if req.status_code == 200:
-            if req.headers.get("content-length", False):
-                return req.headers.get("content-type", "unknown"), req.headers.get("content-length", 0)
-            else:
-                req2 = requests.get(url, headers=fake_headers, timeout=20, allow_redirects=True)
-                return req2.headers.get("content-type", "unknown"), len(req2.text)
-        elif req.status_code == 405:
+        headreq = requests.head(url, headers=fake_headers, timeout=20, allow_redirects=True)
+        if headreq.status_code == 200 and headreq.headers.get("content-length", False):
+            return headreq.headers.get("content-type", "unknown"), headreq.headers.get("content-length", 0)
+        elif headreq.status_code == 200:
             req2 = requests.get(url, headers=fake_headers, timeout=20, allow_redirects=True)
             return req2.headers.get("content-type", "unknown"), len(req2.text)
         else:
+            logger.warning("Error getting URL info for %s." % url)
             return "", 0
     except:
         logger.warning("Error getting URL info for %s." % url)
