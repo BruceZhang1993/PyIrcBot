@@ -95,12 +95,9 @@ def _get_url_info(url):
         headreq = requests.head(url, headers=fake_headers, timeout=20, allow_redirects=True)
         if headreq.status_code == 200 and headreq.headers.get("content-length", False):
             return headreq.headers.get("content-type", "unknown"), headreq.headers.get("content-length", 0)
-        elif headreq.status_code == 200:
+        else:
             req2 = requests.get(url, headers=fake_headers, timeout=20, allow_redirects=True)
             return req2.headers.get("content-type", "unknown"), len(req2.text)
-        else:
-            logger.warning("Error getting URL info for %s." % url)
-            return "", 0
     except:
         logger.warning("Error getting URL info for %s." % url)
         return "", 0

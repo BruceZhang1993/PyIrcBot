@@ -44,8 +44,8 @@
       <file leaf-file-name="linkhandler.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/plugins/linkhandler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="116">
-              <caret line="97" column="40" selection-start-line="97" selection-start-column="40" selection-end-line="97" selection-end-column="40" />
+            <state relative-caret-position="206">
+              <caret line="99" column="78" selection-start-line="99" selection-start-column="78" selection-end-line="99" selection-end-column="78" />
               <folding>
                 <element signature="e#181#190#0" expanded="true" />
               </folding>
@@ -700,7 +700,14 @@
       <option name="project" value="LOCAL" />
       <updated>1463116530808</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="set method get if head is not supported fix 2">
+      <created>1463306297330</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1463306297330</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -967,8 +974,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/plugins/linkhandler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="97" column="40" selection-start-line="97" selection-start-column="40" selection-end-line="97" selection-end-column="40" />
+        <state relative-caret-position="206">
+          <caret line="99" column="78" selection-start-line="99" selection-start-column="78" selection-end-line="99" selection-end-column="78" />
           <folding>
             <element signature="e#181#190#0" expanded="true" />
           </folding>
