@@ -103,9 +103,8 @@ def _get_url_info(url):
         headreq = requests.head(url, headers=fake_headers, timeout=20, allow_redirects=True)
         logger.debug("HEAD %s HTTP %d" % (url, headreq.status_code))
         headreq.raise_for_status()
-        # if headreq.headers.get("content-length", False):
-        #     yield Exception
-
+        if headreq.headers.get("content-length", False):
+            raise Exception
         return headreq.headers.get("content-type", "unknown"), headreq.headers.get("content-length", 0)
     except:
         try:
