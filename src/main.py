@@ -8,6 +8,7 @@
 
 import irc.bot
 import irc.client
+import irc.buffer
 import os
 import json
 import logging
@@ -21,9 +22,9 @@ PLUGINDIR = './plugins/'
 
 sys.path.append(PLUGINDIR)
 
+
 from echo import echo
 from linkhandler import linkhandler
-
 pluginlist = ["echo"]
 handlerlist = ["linkhandler"]
 funclist = [echo]
@@ -122,6 +123,11 @@ def _do_nothing():
     pass
 
 
+class IgnoreErrorsBuffer(irc.buffer.DecodingLineBuffer):
+    def handle_exception(self):
+        pass
+
+
 def main():
     # DONE:10 Try using config file
     confdir = os.environ['HOME'] + "/.pyircbot/"
@@ -138,10 +144,9 @@ def main():
     logger = logging.getLogger("ircbot")
     logger.setLevel(logging.DEBUG)
     logfilehandler = logging.FileHandler(logfile)
-    logfilehandler.setLevel(logging.DEBUG)
     logfilehandler.setLevel(logging.NOTSET)
     consolehandler = logging.StreamHandler()
-    consolehandler.setLevel(logging.INFO)
+    consolehandler.setLevel(logging.NOTSET)
     formatter = logging.Formatter("[%(levelname)s] %(msg)s (%(name)s)")
     consolehandler.setFormatter(formatter)
     logfilehandler.setFormatter(formatter)
@@ -197,7 +202,9 @@ def main():
         realname = config["realname"]
     logger.info("Loading plugins...")
     bot = MyBot(channels, nickname, server, port, realname)
+    irc.client.ServerConnection.buffer_class = IgnoreErrorsBuffer
     bot.start()
+
 
 if __name__ == "__main__":
     main()

@@ -24,6 +24,8 @@ def linkhandler(line, nick, channel):
     words = line.split()
     for word in words:
         if _is_httplink(word) and not _is_localnet(word):
+            if word.find('music.163.com') != -1:
+                word = _nemusic_reformat(word)
             ftype, length = _get_url_info(word)
             if ftype == "" and length == 0:
                 return ""
@@ -54,6 +56,10 @@ def _parse_filesize(bytes):
         bytes /= 1024.0
         index += 1
     return bytes, sizes[index]
+
+
+def _nemusic_reformat(url):
+    return ''.join(url.split('#/'))
 
 
 def _colored(text, forecolor):
@@ -93,26 +99,35 @@ def _get_url_info(url):
     global logger
     try:
         headreq = requests.head(url, headers=fake_headers, timeout=20, allow_redirects=True)
-        if headreq.status_code == 200 and headreq.headers.get("content-length", False):
-            return headreq.headers.get("content-type", "unknown"), headreq.headers.get("content-length", 0)
-        else:
-            req2 = requests.get(url, headers=fake_headers, timeout=20, allow_redirects=True)
-            return req2.headers.get("content-type", "unknown"), len(req2.text)
+        logger.debug("HEAD %s HTTP %d" % (url, headreq.status_code))
+        headreq.raise_for_status()
+        # if headreq.headers.get("content-length", False):
+        #     yield Exception
+
+        return headreq.headers.get("content-type", "unknown"), headreq.headers.get("content-length", 0)
     except:
-        logger.warning("Error getting URL info for %s." % url)
-        return "", 0
+        try:
+            req2 = requests.get(url, headers=fake_headers, timeout=20, allow_redirects=True)
+            logger.debug("GET %s HTTP %d" % (url, req2.status_code))
+            req2.raise_for_status()
+            return req2.headers.get("content-type", "unknown"), len(req2.text)
+        except:
+            logger.warning("Error getting URL info for %s." % url)
+            return "", 0
 
 
 def _get_url_title(url):
     global logger
     try:
-        req = requests.get(url, headers=fake_headers, timeout=20)
-        soup = BeautifulSoup(req.content, "html5lib")
+        req2 = requests.get(url, headers=fake_headers, timeout=20)
+        logger.debug("GET %s HTTP %d" % (url, req2.status_code))
+        req2.raise_for_status()
+        soup = BeautifulSoup(req2.content, "html5lib")
         if soup and soup.title:
             return soup.title.string
     except:
         logger.warning("Error getting URL title for %s" % url)
-        return ""
+        return "", 0
 
 
 def _formatted_size(size):
