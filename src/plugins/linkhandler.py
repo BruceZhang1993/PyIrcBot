@@ -22,30 +22,32 @@ logger = logging.getLogger("ircbot")
 
 def linkhandler(line, nick, channel):
     words = line.split()
+    results = []
     for word in words:
         if _is_httplink(word) and not _is_localnet(word):
             if word.find('music.163.com') != -1:
                 word = _nemusic_reformat(word)
             ftype, length = _get_url_info(word)
             if ftype == "" and length == 0:
-                return ""
+                results.append("")
             elif length == -1:
-                return _colored("Connection Timeout.", "yellow")
+                results.append(_colored("Connection Timeout.", "yellow"))
             elif ftype.startswith("text/html"):
                 title = _get_url_title(word)
                 if title:
-                    return _colored("↑↑ Title: ", "blue") + _colored(title, "orange") + _colored(" ↑↑", "blue")
+                    results.append(_colored("↑↑ Title: ", "blue") + _colored(title, "orange") + _colored(" ↑↑", "blue"))
                 else:
                     size, unit = _parse_filesize(length)
-                    return _colored("↑↑ [ %s ] %.2f%s ↑↑" % (ftype, size, unit), "blue")
+                    results.append(_colored("↑↑ [ %s ] %.2f%s ↑↑" % (ftype, size, unit), "blue"))
             elif ftype.startswith("image"):
                 size, unit = _parse_filesize(length)
                 imgtype, reso = _get_img_reso(word)
-                return _colored("↑↑ [ %s (%s) ] %.2f%s %s ↑↑" % (imgtype, ftype, size, unit, reso), "blue")
+                results.append(_colored("↑↑ [ %s (%s) ] %.2f%s %s ↑↑" % (imgtype, ftype, size, unit, reso), "blue"))
             else:
                 size, unit = _parse_filesize(length)
 
-                return _colored("↑↑ [ %s ] %.2f%s ↑↑" % (ftype, size, unit), "blue")
+                results.append(_colored("↑↑ [ %s ] %.2f%s ↑↑" % (ftype, size, unit), "blue"))
+    return results
 
 
 def _parse_filesize(bytes):

@@ -83,9 +83,10 @@ class MyBot(irc.bot.SingleServerIRCBot):
                 if msg:
                     c.privmsg(nm.nick, msg)
             else:
-                msg = self.passive_exec(line, nm.nick)
-                if msg:
-                    c.privmsg(nm.nick, msg)
+                msgs = self.passive_exec(line, nm.nick)
+                for msg in msgs:
+                    if msg:
+                        c.privmsg(nm.nick, msg)
         except irc.client.InvalidCharacters:
             logger.warning("Invalid characters sent.")
             _do_nothing()
@@ -101,9 +102,10 @@ class MyBot(irc.bot.SingleServerIRCBot):
                 if msg:
                     c.privmsg(channel, "%s: %s" % (nick, msg))
             else:
-                msg = self.passive_exec(line, nick, channel)
-                if msg:
-                    c.privmsg(channel, "%s" % msg)
+                msgs = self.passive_exec(line, nick, channel)
+                for msg in msgs:
+                    if msg:
+                        c.privmsg(channel, "%s" % msg)
         except irc.client.InvalidCharacters:
             logger.warning("Invalid characters sent.")
             _do_nothing()
