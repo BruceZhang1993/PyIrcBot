@@ -68,7 +68,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
 
     def passive_exec(self, line, nick='', channel=''):
         if line.strip().endswith(" #"):
-            return False
+            return []
         for handler in handlerlist:
             index = handlerlist.index(handler)
             resmsg = handlerfuncs[index](line, nick, channel)
