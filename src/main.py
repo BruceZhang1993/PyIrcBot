@@ -23,8 +23,8 @@ PLUGINDIR = './plugins/'
 sys.path.append(PLUGINDIR)
 
 
-from .plugins.echo import echo
-from .plugins.linkhandler import linkhandler
+from plugins.echo import echo
+from plugins.linkhandler import linkhandler
 pluginlist = ["echo"]
 handlerlist = ["linkhandler"]
 funclist = [echo]
