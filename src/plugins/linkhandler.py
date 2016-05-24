@@ -114,10 +114,12 @@ def _get_url_info(con):
 
 
 def _get_url_title(con):
+    lines = []
     for line in con.iter_lines():
-        if str(line).find('<title>') != -1:
+        lines.append(line)
+        if str(line).find('</title>') != -1:
             con.close()
-            return BeautifulSoup(line, 'html5lib').title.text
+            return BeautifulSoup(''.join(lines), 'html5lib').title.text
 
 
 def _formatted_size(size):
