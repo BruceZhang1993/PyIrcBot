@@ -23,17 +23,19 @@ logger = logging.getLogger("ircbot")
 def linkhandler(line, nick, channel):
     words = line.split()
     results = []
+    con = None
     for word in words:
         if _is_httplink(word) and not _is_localnet(word):
             if word.find('music.163.com') != -1:
                 word = _nemusic_reformat(word)
-            ftype, length = _get_url_info(word)
+            con = requests.get(word, stream=True)
+            ftype, length = _get_url_info(con)
             if ftype == "" and length == 0:
                 results.append("")
             elif length == -1:
                 results.append(_colored("Connection Timeout.", "yellow"))
             elif ftype.startswith("text/html"):
-                title = _get_url_title(word)
+                title = _get_url_title(con)
                 if title:
                     results.append(_colored("↑↑ Title: ", "blue") + _colored(title, "orange") + _colored(" ↑↑", "blue"))
                 else:
@@ -41,12 +43,14 @@ def linkhandler(line, nick, channel):
                     results.append(_colored("↑↑ [ %s ] %.2f%s ↑↑" % (ftype, size, unit), "blue"))
             elif ftype.startswith("image"):
                 size, unit = _parse_filesize(length)
-                imgtype, reso = _get_img_reso(word)
+                imgtype, reso = _get_img_reso(con)
                 results.append(_colored("↑↑ [ %s (%s) ] %.2f%s %s ↑↑" % (imgtype, ftype, size, unit, reso), "blue"))
             else:
                 size, unit = _parse_filesize(length)
 
                 results.append(_colored("↑↑ [ %s ] %.2f%s ↑↑" % (ftype, size, unit), "blue"))
+    if con:
+        con.close()
     return results
 
 
@@ -97,38 +101,16 @@ def _is_localnet(words):
         return False
 
 
-def _get_url_info(url):
-    global logger
-    try:
-        headreq = requests.head(url, headers=fake_headers, timeout=20, allow_redirects=True)
-        logger.debug("HEAD %s HTTP %d" % (url, headreq.status_code))
-        headreq.raise_for_status()
-        if not headreq.headers.get("content-length", False):
-            raise Exception
-        return headreq.headers.get("content-type", "unknown"), headreq.headers.get("content-length", 0)
-    except:
-        try:
-            req2 = requests.get(url, headers=fake_headers, timeout=20, allow_redirects=True)
-            logger.debug("GET %s HTTP %d" % (url, req2.status_code))
-            req2.raise_for_status()
-            return req2.headers.get("content-type", "unknown"), len(req2.text)
-        except:
-            logger.warning("Error getting URL info for %s." % url)
-            return "", 0
+def _get_url_info(con):
+    type = con.headers.get('content-type', 'unknown')
+    length = con.headers.get('content-length', 0)
+    return type, length
 
 
-def _get_url_title(url):
-    global logger
-    try:
-        req2 = requests.get(url, headers=fake_headers, timeout=20)
-        logger.debug("GET %s HTTP %d" % (url, req2.status_code))
-        req2.raise_for_status()
-        soup = BeautifulSoup(req2.content, "html5lib")
-        if soup and soup.title:
-            return soup.title.string
-    except:
-        logger.warning("Error getting URL title for %s" % url)
-        return "", 0
+def _get_url_title(con):
+    for line in con.iter_lines():
+        if str(line).find('<title>') != -1:
+            return BeautifulSoup(line, 'html5lib').title.text
 
 
 def _formatted_size(size):
@@ -136,10 +118,8 @@ def _formatted_size(size):
     return "%d x %d" % (width, height)
 
 
-def _get_img_reso(url):
-    r = urllib.request.Request(url, headers=fake_headers)
-    file = urllib.request.urlopen(r)
-    image = Image.open(file)
+def _get_img_reso(con):
+    image = Image.open(con.raw)
     return image.format.upper(), _formatted_size(image.size)
 
 
