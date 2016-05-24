@@ -29,7 +29,7 @@ def linkhandler(line, nick, channel):
             if word.find('music.163.com') != -1:
                 word = _nemusic_reformat(word)
             try:
-                con = requests.get(word, stream=True)
+                con = requests.get(word, stream=True, allow_redirects=True)
                 con.raise_for_status()
             except:
                 code = "Unknown"
