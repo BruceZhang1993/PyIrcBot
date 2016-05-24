@@ -23,12 +23,20 @@ logger = logging.getLogger("ircbot")
 def linkhandler(line, nick, channel):
     words = line.split()
     results = []
-    con = None
     for word in words:
         if _is_httplink(word) and not _is_localnet(word):
+            con = None
             if word.find('music.163.com') != -1:
                 word = _nemusic_reformat(word)
-            con = requests.get(word, stream=True)
+            try:
+                con = requests.get(word, stream=True)
+                con.raise_for_status()
+            except:
+                code = "Unknown"
+                if con is not None:
+                    code = str(con.status_code)
+                logger.warning("Connection failed for %s Error: %s" % (word, code))
+                continue
             ftype, length = _get_url_info(con)
             if ftype == "" and length == 0:
                 results.append("")
