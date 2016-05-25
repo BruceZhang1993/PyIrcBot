@@ -123,6 +123,10 @@ def _get_url_title(con):
             con.close()
             con = None
             return BeautifulSoup(b''.join(lines), 'html5lib').title.text
+        if str(line).find('</head>') != -1:
+            con.close()
+            con = None
+            return False
 
 
 def _formatted_size(size):
