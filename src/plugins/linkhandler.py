@@ -21,7 +21,7 @@ logger = logging.getLogger("ircbot")
 
 
 def linkhandler(line, nick, channel):
-    words = line.split()
+    words = re.split(r'\x0f?\s+')
     results = []
     for word in words:
         if _is_httplink(word) and not _is_localnet(word):
