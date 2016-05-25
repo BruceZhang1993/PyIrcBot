@@ -21,6 +21,7 @@ logger = logging.getLogger("ircbot")
 
 
 def linkhandler(line, nick, channel):
+    logger.debug('public msg received: %s' % line)
     words = re.split(r'\s+', line)
     results = []
     for word in words:
