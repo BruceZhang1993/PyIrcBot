@@ -55,8 +55,10 @@ def linkhandler(line, nick, channel):
                 results.append(_colored("↑↑ [ %s (%s) ] %.2f%s %s ↑↑" % (imgtype, ftype, size, unit, reso), "blue"))
             else:
                 size, unit = _parse_filesize(length)
-
                 results.append(_colored("↑↑ [ %s ] %.2f%s ↑↑" % (ftype, size, unit), "blue"))
+                con.close()
+            if con is not None:
+                con.close()
     return results
 
 
@@ -119,6 +121,7 @@ def _get_url_title(con):
         lines.append(line)
         if str(line).find('</title>') != -1:
             con.close()
+            con = None
             return BeautifulSoup(b''.join(lines), 'html5lib').title.text
 
 
