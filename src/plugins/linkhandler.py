@@ -5,14 +5,13 @@
 # Email:   zy183525594@163.com
 # Version: 0.1
 # -----------------------------
-import re
-import requests
-import sys
-import urllib.request
-import urllib.error
-import urllib.parse
 import logging
+import re
+import sys
+
+import requests
 from PIL import Image
+
 sys.path.append("../")
 from bs4 import BeautifulSoup
 
@@ -116,7 +115,7 @@ def _get_url_info(con):
     return type, length
 
 
-def _get_url_title(con):
+def _get_url_title(con, maxlen=5000):
     lines = []
     for line in con.iter_lines():
         lines.append(line)
@@ -128,6 +127,11 @@ def _get_url_title(con):
             con.close()
             con = None
             return False
+        if len(lines) >= maxlen:
+            con.close()
+            con = None
+            break
+    return False
 
 
 def _formatted_size(size):
@@ -138,5 +142,3 @@ def _formatted_size(size):
 def _get_img_reso(con):
     image = Image.open(con.raw)
     return image.format.upper(), _formatted_size(image.size), image.mode
-
-
