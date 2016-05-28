@@ -53,7 +53,7 @@ def linkhandler(line, nick, channel):
                 size, unit = _parse_filesize(length)
                 res = _get_img_reso(con)
                 if res:
-                    imgtype, reso, mode = res
+                    (imgtype, reso, mode) = res
                     results.append(_colored("↑↑ [ %s ] %.2f%s %s %s ↑↑" % (imgtype, size, unit, reso, mode), "blue"))
             else:
                 size, unit = _parse_filesize(length)
@@ -146,7 +146,7 @@ def _get_img_reso(con):
     result = False
     try:
         image = Image.open(con.raw)
-        result = image.format.upper(), _formatted_size(image.size), image.mode
+        result = (image.format.upper(), _formatted_size(image.size), image.mode)
     except:
         logger.warning('unable to identify image.')
     return result
