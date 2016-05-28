@@ -51,8 +51,10 @@ def linkhandler(line, nick, channel):
                     results.append(_colored("↑↑ [ %s ] %.2f%s ↑↑" % (ftype, size, unit), "blue"))
             elif ftype.startswith("image"):
                 size, unit = _parse_filesize(length)
-                imgtype, reso, mode = _get_img_reso(con)
-                results.append(_colored("↑↑ [ %s ] %.2f%s %s %s ↑↑" % (imgtype, size, unit, reso, mode), "blue"))
+                res = _get_img_reso(con)
+                if res:
+                    imgtype, reso, mode = res
+                    results.append(_colored("↑↑ [ %s ] %.2f%s %s %s ↑↑" % (imgtype, size, unit, reso, mode), "blue"))
             else:
                 size, unit = _parse_filesize(length)
                 results.append(_colored("↑↑ [ %s ] %.2f%s ↑↑" % (ftype, size, unit), "blue"))
@@ -140,5 +142,14 @@ def _formatted_size(size):
 
 
 def _get_img_reso(con):
-    image = Image.open(con.raw)
-    return image.format.upper(), _formatted_size(image.size), image.mode
+    image = None
+    result = False
+    try:
+        image = Image.open(con.raw)
+        result = image.format.upper(), _formatted_size(image.size), image.mode
+    except:
+        logger.warning('unable to identify image.')
+    return result
+
+
+
