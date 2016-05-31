@@ -7,6 +7,7 @@
 # -----------------------------
 
 import re
+import os
 from sumy.parsers.html import HtmlParser
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.nlp.stemmers import Stemmer
@@ -28,16 +29,10 @@ def summarize(args):
         return 'too many aruments.'
 
 
-def _exec_sum(url, pct='15'):
+def _exec_sum(url, pct='15%'):
     sentences = []
     if _is_httplink(url):
-        parser = HtmlParser.from_url(url, Tokenizer('chinese'))
-        stemmer = Stemmer('chinese')
-        summarizer = Summarizer(stemmer)
-        summarizer.stop_words = get_stop_words('chinese')
-        for sentence in summarizer(parser.document, pct):
-            sentences.append(sentence)
-        return ''.join(sentences)
+        return os.system('sumy luhn --url=%s --length=%s' % (url, pct))
     return False
 
 

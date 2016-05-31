@@ -25,9 +25,10 @@ sys.path.append(PLUGINDIR)
 
 from plugins.echo import echo
 from plugins.linkhandler import linkhandler
-pluginlist = ["echo"]
+from plugins.summarize import summarize
+pluginlist = ["echo", "summarize"]
 handlerlist = ["linkhandler"]
-funclist = [echo]
+funclist = [echo, summarize]
 handlerfuncs = [linkhandler]
 
 
