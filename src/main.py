@@ -60,7 +60,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
         c.join(channel)
 
     def exec_command(self, commandline):
-        cmdargs = commandline.split(' ', 1)
+        cmdargs = commandline.split(' ', 2)
         if cmdargs[0] in pluginlist:
             index = pluginlist.index(cmdargs[0])
             msg = funclist[index](cmdargs[1])
