@@ -117,22 +117,23 @@ def _get_url_info(con):
     return type, length
 
 
-def _get_url_title(con, maxlen=5000):
+def _get_url_title(con, maxlen=1000):
     lines = []
+    title_found = False
     for line in con.iter_lines():
         lines.append(line)
         if str(line).find('</title>') != -1:
-            con.close()
-            con = None
-            return BeautifulSoup(b''.join(lines), 'html5lib').title.text
+            title_found = True
         if str(line).find('</head>') != -1:
             con.close()
             con = None
-            return False
+            break
         if len(lines) >= maxlen:
             con.close()
             con = None
             break
+    if title_found:
+        return BeautifulSoup(b''.join(lines), 'html5lib').title.text
     return False
 
 
