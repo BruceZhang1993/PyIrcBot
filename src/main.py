@@ -17,7 +17,7 @@ import re
 import sys
 import signal
 
-PREFIX = '>>'
+PREFIX = '$'
 PLUGINDIR = './plugins/'
 
 sys.path.append(PLUGINDIR)

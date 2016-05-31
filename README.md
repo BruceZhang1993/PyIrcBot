@@ -9,3 +9,8 @@
 - Pillow
 - BeautifulSoup4
 - html5lib
+
+## Dependencies for summarize plugin:
+
+- sumy
+
