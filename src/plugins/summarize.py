@@ -32,7 +32,8 @@ def summarize(args):
 def _exec_sum(url, pct='15%'):
     sentences = []
     if _is_httplink(url):
-        return os.system('sumy luhn --url=%s --length=%s' % (url, pct))
+        cmd = os.popen('sumy luhn --url=%s --length=%s' % (url, pct))
+        return cmd.read()
     return False
 
 
