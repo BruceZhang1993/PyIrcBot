@@ -18,9 +18,9 @@ from sumy.summarizers.edmundson import EdmundsonSummarizer as Summarizer
 def summarize(args):
     argus = args.split()
     if len(argus) == 0:
-        return 'Summarize usage: summarize <url> (sentence count)'
+        return 'Summarize usage: summarize <url> (percentage)'
     elif argus[0].lower() == '--help':
-        return 'Summarize usage: summarize <url> (sentence count)'
+        return 'Summarize usage: summarize <url> (percentage)'
     elif len(argus) == 1:
         return _exec_sum(argus[0])
     elif len(argus) == 2:
