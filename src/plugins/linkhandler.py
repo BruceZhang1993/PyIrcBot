@@ -8,6 +8,7 @@
 import logging
 import re
 import sys
+import os
 
 import requests
 from PIL import Image
@@ -55,6 +56,12 @@ def linkhandler(line, nick, channel):
                 if res:
                     (imgtype, reso, mode) = res
                     results.append(_colored("↑↑ [ %s ] %.2f%s %s %s ↑↑" % (imgtype, size, unit, reso, mode), "blue"))
+            elif ftype.startswith('audio') or ftype.startswith('video'):
+                size, unit = _parse_filesize(length)
+                info = _get_media_format_duration_bitrate(word)
+                if info:
+                    (mformat, duration, bitrate) = info
+                    results.append(_colored("↑↑ [ %s ] %.2f%s %s %s ↑↑" % (mformat, size, unit, bitrate, duration), "blue"))
             else:
                 size, unit = _parse_filesize(length)
                 results.append(_colored("↑↑ [ %s ] %.2f%s ↑↑" % (ftype, size, unit), "blue"))
@@ -153,4 +160,25 @@ def _get_img_reso(con):
     return result
 
 
+def _get_media_format_duration_bitrate(url):
+    lines = []
+    brstr = False
+    durstr = False
+    fmtstr = False
+    for line in os.popen('mediainfo %s' % url):
+        lines.append(line)
+    for line in lines:
+        if re.match(r'bit rate', line, re.IGNORECASE) and not brstr:
+            brstr = line
+        if re.match(r'duration', line, re.IGNORECASE) and not durstr:
+            durstr = line
+        if re.match(r'format', line, re.IGNORECASE) and not fmtstr:
+            fmtstr = line
+    if brstr and durstr:
+        return _reformat_info_string(fmtstr), _reformat_info_string(durstr), _reformat_info_string(brstr)
+    else:
+        return False
 
+
+def _reformat_info_string(str):
+    return str.split(':')[1].strip("\n").strip()

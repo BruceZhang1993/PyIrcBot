@@ -9,6 +9,7 @@
 - Pillow
 - BeautifulSoup4
 - html5lib
+- mediainfo
 
 ## Dependencies for summarize plugin:
 
