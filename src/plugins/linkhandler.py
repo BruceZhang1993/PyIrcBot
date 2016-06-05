@@ -168,7 +168,7 @@ def _get_media_format_duration_bitrate(url):
     for line in os.popen('mediainfo %s' % url):
         lines.append(line)
     for line in lines:
-        if line.find('it rate') != -1 and not brstr:
+        if line.find('Kbps') != -1 and not brstr:
             brstr = line
         if line.find('Duration') != -1 and not durstr:
             durstr = line
