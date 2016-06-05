@@ -168,11 +168,11 @@ def _get_media_format_duration_bitrate(url):
     for line in os.popen('mediainfo %s' % url):
         lines.append(line)
     for line in lines:
-        if re.match(r'bit rate', line, re.IGNORECASE) and not brstr:
+        if line.find('it rate') != -1 and not brstr:
             brstr = line
-        if re.match(r'duration', line, re.IGNORECASE) and not durstr:
+        if line.find('Duration') != -1 and not durstr:
             durstr = line
-        if re.match(r'format', line, re.IGNORECASE) and not fmtstr:
+        if line.find('Format') != -1 and not fmtstr:
             fmtstr = line
     if brstr and durstr:
         return _reformat_info_string(fmtstr), _reformat_info_string(durstr), _reformat_info_string(brstr)
