@@ -19,4 +19,7 @@ Dependencies for link handler:
 - Pillow
 - BeautifulSoup4
 - html5lib
+
+Other dependencies:
+
 - mediainfo (eg. pacman -S mediainfo)
