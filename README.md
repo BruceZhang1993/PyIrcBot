@@ -1,4 +1,4 @@
-Install via pypi:
+Install via pypi:  
 (sudo) pip3 install Py-IrcBot 
 
 Manual install:
@@ -8,8 +8,9 @@ cd PyIrcBot
 (sudo) python3 setup.py install
 ```
 
-Configure and use:
-pyircbot
+Configure and use:  
+ircbot
+We'll start configure wizard for your first running.
 
 Dependencies for bot core:
 
