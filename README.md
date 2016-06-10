@@ -1,3 +1,7 @@
+Prerequisites:  
+
+- [mediainfo](https://mediaarea.net/en/MediaInfo)
+
 Install via pypi:  
 (sudo) pip3 install Py-IrcBot 
 
@@ -24,6 +28,4 @@ Dependencies for link handler:
 - BeautifulSoup4
 - html5lib
 
-Other dependencies:
 
-- mediainfo (eg. pacman -S mediainfo)
