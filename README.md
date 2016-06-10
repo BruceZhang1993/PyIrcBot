@@ -9,7 +9,7 @@ cd PyIrcBot
 ```
 
 Configure and use:  
-ircbot
+ircbot   
 We'll start configure wizard for your first running.
 
 Dependencies for bot core:
