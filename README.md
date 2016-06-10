@@ -1,4 +1,7 @@
-Install:
+Install via pypi:
+(sudo) pip3 install Py-IrcBot 
+
+Manual install:
 ```
 git clone https://github.com/BruceZhang1993/PyIrcBot
 cd PyIrcBot
