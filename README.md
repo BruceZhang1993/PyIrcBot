@@ -1,38 +1,31 @@
-## PyIrcBot
-#### A python 3 irc bot
+Prerequisites:  
 
----
-### Dependency
-- Python(3.x)
+- [mediainfo](https://mediaarea.net/en/MediaInfo)
+
+Install via pypi:  
+(sudo) pip3 install Py-IrcBot 
+
+Manual install:
+```
+git clone https://github.com/BruceZhang1993/PyIrcBot
+cd PyIrcBot
+(sudo) python3 setup.py install
+```
+
+Configure and use:  
+ircbot   
+We'll start configure wizard for your first running.
+
+Dependencies for bot core:
+
+- Python IRC module (irc)
+- termcolor
+
+Dependencies for link handler:
+
+- requests
+- Pillow
 - BeautifulSoup4
 - html5lib
-- requests
-- irc
-- Pillow(PIL)
-- PyGithub
 
----
-### Installation
-1. Clone this repo and change to working dir
-```
-git clone https://github.com/BruceZhang1993/PyIrcBot.git
-cd PyIrcBot
-```
-2. Install all dependencies
-```
-pip3 install -r requirements.txt --user
-```
 
-### Configure
-- Edit file config.json
-
-### Upgrade
-- Pull latest version using git
-
-```
-git pull origin master
-```
-- Configure again
-
-### Copyrights & License
-- License: The MIT License (MIT)
