@@ -20,7 +20,7 @@ import plugin
 
 PREFIX = '$'
 PLUGINDIR = './plugins/'
-self.plugins = plugin.load_plugins(PLUGINDIR)
+plugins = plugin.load_plugins(PLUGINDIR)
 
 class MyBot(irc.bot.SingleServerIRCBot):
 
