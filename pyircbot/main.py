@@ -43,8 +43,8 @@ class MyBot(irc.bot.SingleServerIRCBot):
     def __init__(self, channels, nickname, server, port, realname):
         irc.bot.SingleServerIRCBot.__init__(self, [(server, port)],
                                             nickname, realname)
-        self.handlers = list(filter(lambda plugin: plugin.endswith('handler'), pluginss))
-        self.commands = list(filter(lambda plugin: not plugin.endswith('handler'), pluginss))
+        self.handlers = ['linkhandler']
+        self.commands = ['echo']
         self.chs = channels
         logger.info("Bot started successfully.")
         signal.signal(signal.SIGINT, self._quit)
