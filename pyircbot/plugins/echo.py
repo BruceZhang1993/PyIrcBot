@@ -9,5 +9,5 @@
 '''demo plugin'''
 
 
-def say(args):
+def echo(args):
     return args
