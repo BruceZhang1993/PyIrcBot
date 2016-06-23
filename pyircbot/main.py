@@ -20,6 +20,7 @@ import plugin
 
 PREFIX = '$'
 PLUGINDIR = './plugins/'
+self.plugins = plugin.load_plugins(PLUGINDIR)
 
 class MyBot(irc.bot.SingleServerIRCBot):
 
@@ -28,9 +29,8 @@ class MyBot(irc.bot.SingleServerIRCBot):
     def __init__(self, channels, nickname, server, port, realname):
         irc.bot.SingleServerIRCBot.__init__(self, [(server, port)],
                                             nickname, realname)
-        self.plugins = plugin.load_plugins(PLUGINDIR)
-        self.handlers = list(filter(lambda plugin: plugin.endswith('handler'), self.plugins))
-        self.commands = list(filter(lambda plugin: not plugin.endswith('handler'), self.plugins))
+        self.handlers = list(filter(lambda plugin: plugin.endswith('handler'), plugins))
+        self.commands = list(filter(lambda plugin: not plugin.endswith('handler'), plugins))
         self.chs = channels
         logger.info("Bot started successfully.")
         signal.signal(signal.SIGINT, self._quit)

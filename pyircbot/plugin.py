@@ -35,3 +35,4 @@ def reload_all_plugins(plugins):
 
 if __name__ == '__main__':
     print(load_plugins('./plugins/'))
+    print(echo)
