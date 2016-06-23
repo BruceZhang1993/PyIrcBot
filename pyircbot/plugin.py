@@ -7,7 +7,7 @@
 # -----------------------------
 
 import os
-import importlib
+#import importlib
 import logging
 
 logger = logging.getLogger('ircbot')
@@ -17,7 +17,8 @@ def load_plugins(plugin_dir):
     loaded_plugins = []
     for plugin in plugins:
         try:
-            importlib.import_module('plugins.%s' % plugin)
+            #importlib.import_module('plugins.%s' % plugin)
+            exec('from plugins.%s import %s' % (plugin, plugin))
             loaded_plugins.append(plugin)
         except ImportError:
             logger.warning("Cannot load plugin `%s`, ignoring it." % plugin)
@@ -27,7 +28,7 @@ def reload_all_plugins(plugins):
     reloaded_plugins = []
     for plugin in plugins:
         try:
-            importlib.reload(plugin)
+            exec('reload(%s)' % plugin)
             reloaded_plugins.append(plugin)
         except ImportError:
             logger.warning("Cannot reload plugin `%s`, ignoring it." % plugin)

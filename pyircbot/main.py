@@ -16,12 +16,11 @@ from termcolor import colored
 import re
 import sys
 import signal
-import plugin
+from plugin import load_plugins
 
 PREFIX = '$'
 PLUGINDIR = './plugins/'
-sys.path.append(PLUGINDIR)
-pluginss = plugin.load_plugins(PLUGINDIR)
+pluginss = load_plugins(PLUGINDIR)
 
 class MyBot(irc.bot.SingleServerIRCBot):
 
@@ -55,7 +54,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
     def exec_command(self, commandline):
         cmdargs = commandline.split(' ', 1)
         if cmdargs[0] in self.commands:
-            msg = eval("%s.%s" % (cmdargs[0], cmdargs[1]))(cmdargs[1])
+            msg = eval("%s" % cmdargs[0])(cmdargs[1])
             return msg
         return False
 
@@ -63,7 +62,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
         if line.strip().endswith(" #"):
             return []
         for handler in self.handlers:
-            resmsg = eval("%s.%s" % (handler, handler))(line, nick, channel)
+            resmsg = eval("%s" % handler)(line, nick, channel)
             return resmsg
 
     def on_privmsg(self, c, e):
