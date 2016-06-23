@@ -17,21 +17,24 @@ import re
 import sys
 import signal
 
-def load_plugins(plugin_dir):
-    plugins = list(map(lambda file: file.strip('.py') ,filter(lambda file: file.endswith('.py') and not file.startswith('__init__'), os.listdir(plugin_dir))))
-    loaded_plugins = []
-    for plugin in plugins:
-        try:
-            #importlib.import_module('plugins.%s' % plugin)
-            exec('from plugins.%s import %s' % (plugin, plugin))
-            loaded_plugins.append(plugin)
-        except ImportError:
-            logger.warning("Cannot load plugin `%s`, ignoring it." % plugin)
-    return loaded_plugins
+# def load_plugins(plugin_dir):
+#     plugins = list(map(lambda file: file.strip('.py') ,filter(lambda file: file.endswith('.py') and not file.startswith('__init__'), os.listdir(plugin_dir))))
+#     loaded_plugins = []
+#     for plugin in plugins:
+#         try:
+#             #importlib.import_module('plugins.%s' % plugin)
+#             exec('from plugins.%s import %s' % (plugin, plugin))
+#             loaded_plugins.append(plugin)
+#         except ImportError:
+#             logger.warning("Cannot load plugin `%s`, ignoring it." % plugin)
+#     return loaded_plugins
 
 PREFIX = '$'
 PLUGINDIR = './plugins/'
-pluginss = load_plugins(PLUGINDIR)
+# pluginss = load_plugins(PLUGINDIR)
+
+from plugins.echo import echo
+from plugins.linkhandler import linkhandler
 
 class MyBot(irc.bot.SingleServerIRCBot):
 
