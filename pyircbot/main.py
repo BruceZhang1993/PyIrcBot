@@ -16,22 +16,23 @@ from termcolor import colored
 import re
 import sys
 import signal
+import importlib
 
-# def load_plugins(plugin_dir):
-#     plugins = list(map(lambda file: file.strip('.py') ,filter(lambda file: file.endswith('.py') and not file.startswith('__init__'), os.listdir(plugin_dir))))
-#     loaded_plugins = []
-#     for plugin in plugins:
-#         try:
-#             #importlib.import_module('plugins.%s' % plugin)
-#             exec('from plugins.%s import %s' % (plugin, plugin))
-#             loaded_plugins.append(plugin)
-#         except ImportError:
-#             logger.warning("Cannot load plugin `%s`, ignoring it." % plugin)
-#     return loaded_plugins
+def load_plugins(plugin_dir):
+    plugins = list(map(lambda file: file.strip('.py') ,filter(lambda file: file.endswith('.py') and not file.startswith('__init__'), os.listdir(plugin_dir))))
+    loaded_plugins = []
+    for plugin in plugins:
+        try:
+            mod = importlib.import_module('plugins.%s' % plugin)
+            exec("%s = mod.%s" % (plugin, plugin))
+            loaded_plugins.append(plugin)
+        except ImportError:
+            logger.warning("Cannot load plugin `%s`, ignoring it." % plugin)
+    return loaded_plugins
 
 PREFIX = '$'
 PLUGINDIR = './plugins/'
-# pluginss = load_plugins(PLUGINDIR)
+pluginss = load_plugins(PLUGINDIR)
 
 from plugins.echo import echo
 from plugins.linkhandler import linkhandler
@@ -43,8 +44,8 @@ class MyBot(irc.bot.SingleServerIRCBot):
     def __init__(self, channels, nickname, server, port, realname):
         irc.bot.SingleServerIRCBot.__init__(self, [(server, port)],
                                             nickname, realname)
-        self.handlers = ['linkhandler']
-        self.commands = ['echo']
+        self.handlers = list(filter(lambda p: p.endswith('handler'), pluginss))
+        self.commands = list(filter(lambda p: not p.endswith('handler'), pluginss))
         self.chs = channels
         logger.info("Bot started successfully.")
         signal.signal(signal.SIGINT, self._quit)
