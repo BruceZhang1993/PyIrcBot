@@ -54,7 +54,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
     def exec_command(self, commandline):
         cmdargs = commandline.split(' ', 1)
         if cmdargs[0] in self.commands:
-            exec('msg = %s.%s("%s")' % (cmdargs[0], cmdargs[0], cmdargs[1])
+            exec('msg = %s.%s("%s")' % (cmdargs[0], cmdargs[0], cmdargs[1]))
             return msg
         return False
 
