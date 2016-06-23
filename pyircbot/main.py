@@ -16,29 +16,21 @@ from termcolor import colored
 import re
 import sys
 import signal
+import plugin
 
 PREFIX = '$'
 PLUGINDIR = './plugins/'
 
-sys.path.append(PLUGINDIR)
-
-
-from .plugins.echo import echo
-from .plugins.linkhandler import linkhandler
-# from plugins.summarize import summarize
-pluginlist = ["echo"]
-handlerlist = ["linkhandler"]
-funclist = [echo]
-handlerfuncs = [linkhandler]
-
-
 class MyBot(irc.bot.SingleServerIRCBot):
 
-    version = "201605-dev"
+    version = "201606-dev"
 
     def __init__(self, channels, nickname, server, port, realname):
         irc.bot.SingleServerIRCBot.__init__(self, [(server, port)],
                                             nickname, realname)
+        self.plugins = plugin.load_plugins(PLUGINDIR)
+        self.handlers = list(filter(lambda plugin: plugin.endswith('handler'), plugins))
+        self.commands = list(filter(lambda plugin: not plugin.endswith('handler'), plugins))
         self.chs = channels
         logger.info("Bot started successfully.")
         signal.signal(signal.SIGINT, self._quit)
@@ -61,18 +53,16 @@ class MyBot(irc.bot.SingleServerIRCBot):
 
     def exec_command(self, commandline):
         cmdargs = commandline.split(' ', 1)
-        if cmdargs[0] in pluginlist:
-            index = pluginlist.index(cmdargs[0])
-            msg = funclist[index](cmdargs[1])
+        if cmdargs[0] in self.commands:
+            exec('msg = %s.%s("%s")' % (cmdargs[0], cmdargs[0], cmdargs[1])
             return msg
         return False
 
     def passive_exec(self, line, nick='', channel=''):
         if line.strip().endswith(" #"):
             return []
-        for handler in handlerlist:
-            index = handlerlist.index(handler)
-            resmsg = handlerfuncs[index](line, nick, channel)
+        for handler in self.handlers:
+            resmsg = exec('resmsg = %s.%s(line, nick, channel)' % (handler, handler))
             return resmsg
 
     def on_privmsg(self, c, e):

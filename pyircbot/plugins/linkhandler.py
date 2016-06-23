@@ -13,7 +13,7 @@ import os
 import requests
 from PIL import Image
 
-sys.path.append("../")
+#sys.path.append("../")
 from bs4 import BeautifulSoup
 
 fake_headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:46.0) Gecko/20100101 Firefox/46.0"}
@@ -132,10 +132,6 @@ def _get_url_title(con, maxlen=1000):
         if str(line).find('</title>') != -1:
             title_found = True
         if str(line).find('</head>') != -1:
-            con.close()
-            con = None
-            break
-        if len(lines) >= maxlen:
             con.close()
             con = None
             break
