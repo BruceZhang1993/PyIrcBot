@@ -54,7 +54,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
     def exec_command(self, commandline):
         cmdargs = commandline.split(' ', 1)
         if cmdargs[0] in self.commands:
-            exec('msg = %s.%s("%s")' % (cmdargs[0], cmdargs[0], cmdargs[1]))
+            msg = eval("%s.%s" % (cmdargs[0], cmdargs[1]))(cmdargs[1])
             return msg
         return False
 
@@ -62,7 +62,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
         if line.strip().endswith(" #"):
             return []
         for handler in self.handlers:
-            resmsg = exec('resmsg = %s.%s(line, nick, channel)' % (handler, handler))
+            resmsg = eval("%s.%s" % (handler, handler))(line, nick, channel)
             return resmsg
 
     def on_privmsg(self, c, e):
