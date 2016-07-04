@@ -20,7 +20,7 @@ fake_headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:46.0) Gecko/20
 logger = logging.getLogger("ircbot")
 
 
-def linkhandler(line, nick, channel):
+def linkhandler(line, nick, channel, c, e):
     # logger.debug('public msg received: %s' % line)
     words = line.split()
     results = []

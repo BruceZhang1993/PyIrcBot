@@ -66,14 +66,14 @@ class MyBot(irc.bot.SingleServerIRCBot):
         channel = e.target
         c.join(channel)
 
-    def exec_command(self, commandline):
+    def exec_command(self, commandline, nick='', channel='', con=False, event=False):
         cmdargs = commandline.split(' ', 1)
         if cmdargs[0] in self.commands:
             msg = eval("%s" % cmdargs[0])(cmdargs[1])
             return msg
         return False
 
-    def passive_exec(self, line, nick='', channel=''):
+    def passive_exec(self, line, nick='', channel='', con=False, event=False):
         if line.strip().endswith(" #"):
             return []
         for handler in self.handlers:
@@ -86,11 +86,11 @@ class MyBot(irc.bot.SingleServerIRCBot):
         try:
             if line.startswith(PREFIX):
                 commandline = line.strip(PREFIX).strip()
-                msg = self.exec_command(commandline)
+                msg = self.exec_command(commandline, nm.nick, con=c, event=e)
                 if msg:
                     c.privmsg(nm.nick, msg)
             else:
-                msgs = self.passive_exec(line, nm.nick)
+                msgs = self.passive_exec(line, nm.nick, con=c, event=e)
                 for msg in msgs:
                     if msg:
                         c.privmsg(nm.nick, msg)
@@ -105,11 +105,11 @@ class MyBot(irc.bot.SingleServerIRCBot):
         try:
             if line.startswith(PREFIX):
                 commandline = line.strip(PREFIX).strip()
-                msg = self.exec_command(commandline)
+                msg = self.exec_command(commandline, nick, channel, con=c, event=e)
                 if msg:
                     c.privmsg(channel, "%s: %s" % (nick, msg))
             else:
-                msgs = self.passive_exec(line, nick, channel)
+                msgs = self.passive_exec(line, nick, channel, con=c, event=e)
                 for msg in msgs:
                     if msg:
                         c.privmsg(channel, "%s" % msg)
