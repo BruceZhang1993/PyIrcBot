@@ -37,6 +37,7 @@ pluginss = load_plugins(PLUGINDIR)
 
 from plugins.echo import echo
 from plugins.linkhandler import linkhandler
+from plugins.ip import ip
 
 class MyBot(irc.bot.SingleServerIRCBot):
 
