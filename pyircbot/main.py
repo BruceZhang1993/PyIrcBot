@@ -71,7 +71,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
     def exec_command(self, commandline, nick='', channel='', con=False, event=False):
         cmdargs = commandline.split(' ', 1)
         if cmdargs[0] in self.commands:
-            msg = eval("%s" % cmdargs[0])(cmdargs[1])
+            msg = eval("%s" % cmdargs[0])(cmdargs.get(1, ''))
             return msg
         return False
 
