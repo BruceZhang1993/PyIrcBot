@@ -17,9 +17,10 @@ import re
 import sys
 import signal
 import importlib
+from os.path import splitext
 
 def load_plugins(plugin_dir):
-    plugins = list(map(lambda file: file.strip('.py') ,filter(lambda file: file.endswith('.py') and not file.startswith('__init__'), os.listdir(plugin_dir))))
+    plugins = list(map(lambda file: splitext(file)[0] ,filter(lambda file: file.endswith('.py') and not file.startswith('__init__'), os.listdir(plugin_dir))))
     loaded_plugins = []
     for plugin in plugins:
         try:
