@@ -113,7 +113,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
                 commandline = line.strip(PREFIX).strip()
                 msg = self.exec_command(commandline, nick, channel, con=c, event=e)
                 if msg:
-                    c.privmsg(channel, "%s: %s" % (nick, msg))
+                    c.privmsg(channel, msg)
             else:
                 msgs = self.passive_exec(line, nick, channel, con=c, event=e)
                 for msg in msgs:

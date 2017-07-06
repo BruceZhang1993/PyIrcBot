@@ -13,7 +13,7 @@ import requests
 
 def ip(args, nick, channel, c, e):
     if not args:
-        return _getip(e.source.host)
+        return "%s: %s" % (nick, _getip(e.source.host))
     else:
         return False
 
