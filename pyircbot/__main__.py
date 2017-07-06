@@ -81,7 +81,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
         if line.strip().endswith(" #"):
             return []
         for handler in self.handlers:
-            resmsg = eval("%s" % handler)(line, nick, channel)
+            resmsg = eval("%s" % handler)(line, nick, channel, con, event)
             return resmsg
 
     def on_privmsg(self, c, e):
