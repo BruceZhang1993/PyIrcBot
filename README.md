@@ -2,30 +2,23 @@ Prerequisites:
 
 - [mediainfo](https://mediaarea.net/en/MediaInfo)
 
-Install via pypi:  
-(sudo) pip3 install Py-IrcBot 
-
-Manual install:
-```
-git clone https://github.com/BruceZhang1993/PyIrcBot
-cd PyIrcBot
-(sudo) python3 setup.py install
-```
-
-Configure and use:  
-ircbot   
-We'll start configure wizard for your first running.
-
 Dependencies for bot core:
 
 - Python IRC module (irc)
 - termcolor
 
-Dependencies for link handler:
+Dependencies for link handler (Main Feature - Recommand):
 
 - requests
 - Pillow
 - BeautifulSoup4
 - html5lib
 
+
+Manual Usage:
+```
+git clone https://github.com/BruceZhang1993/PyIrcBot
+cd PyIrcBot
+python3 -m pyircbot
+```
 
