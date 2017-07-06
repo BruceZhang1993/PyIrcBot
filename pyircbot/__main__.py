@@ -73,7 +73,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
         if cmdargs[0] in self.commands:
             if len(cmdargs) < 2:
                 cmdargs[1] = ''
-            msg = eval("%s" % cmdargs[0])(cmdargs[1])
+            msg = eval("%s" % cmdargs[0])(cmdargs[1], nick, channel, con, event)
             return msg
         return False
 

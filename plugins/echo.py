@@ -9,5 +9,5 @@
 '''demo plugin'''
 
 
-def echo(args):
+def echo(args, nick, channel, c, e):
     return args
