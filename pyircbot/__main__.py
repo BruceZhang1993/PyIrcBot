@@ -20,24 +20,20 @@ import importlib
 from os.path import splitext
 
 logger = logging.getLogger('ircbot')
-
-def load_plugins(plugin_dir):
-    plugins = list(map(lambda file: splitext(file)[0] ,filter(lambda file: file.endswith('.py') and not file.startswith('__init__'), os.listdir(plugin_dir))))
-    loaded_plugins = []
-    for plugin in plugins:
-        try:
-            exec("global %s" % plugin)
-            module = importlib.import_module("plugins.%s" % plugin)
-            exec('linkhandler=getattr(module, plugin)')
-            loaded_plugins.append(plugin)
-        except ImportError as e:
-            print(e);
-            logger.warning("Cannot load plugin `%s`, ignoring it." % plugin)
-    return loaded_plugins
-
-PREFIX = '$'
 PLUGINDIR = './plugins/'
-pluginss = load_plugins(PLUGINDIR)
+PREFIX = '$'
+
+plugins = list(map(lambda file: splitext(file)[0] ,filter(lambda file: file.endswith('.py') and not file.startswith('__init__'), os.listdir(PLUGINDIR))))
+pluginss = []
+for plugin in plugins:
+    try:
+        # exec("global %s" % plugin)
+        module = importlib.import_module("plugins.%s" % plugin)
+        exec("%s=getattr(module, plugin)" % plugin)
+        pluginss.append(plugin)
+    except ImportError as e:
+        print(e);
+        logger.warning("Cannot load plugin `%s`, ignoring it." % plugin)
 
 # from plugins.echo import echo
 # from plugins.ip import ip
@@ -58,7 +54,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
 
     def _quit(self, arg1, arg2):
         logger.info("Bot interuptted from console.")
-        msg = input("The reason for stopping bot:")
+        msg = input("The reason for stopping bot: ")
         self.die(msg or "")
 
     def on_nicknameinuse(self, c, e):
