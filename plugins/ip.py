@@ -15,7 +15,7 @@ def ip(args, nick, channel, c, e):
     if not args:
         return "%s: %s" % (nick, _getip(e.source.host))
     else:
-        return "%s: %s" % (nick, args)
+        return "%s: %s" % (nick, _getip(args))
 
 
 def _getip(ip):
