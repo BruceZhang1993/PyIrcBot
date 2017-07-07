@@ -15,7 +15,7 @@ def ip(args, nick, channel, c, e):
     if not args:
         return "%s: %s" % (nick, _getip(e.source.host))
     else:
-        return False
+        return "%s: %s" % (nick, args)
 
 
 def _getip(ip):
@@ -24,4 +24,4 @@ def _getip(ip):
         jret = json.loads(ret.text)
         return "%s %s %s %s %s" % (jret['country'], jret['province'], jret['city'], jret['district'], jret['isp'])
     else:
-        return "查询失败！检查是否已隐身！"
+        return "查询失败！检查是否已隐身或IP格式不正确！- 暂只支持IPv4地址"
