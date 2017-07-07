@@ -27,7 +27,7 @@ def admin(args, nick, channel, c, e):
                 module = importlib.import_module("plugins.%s" % arg1)
                 importlib.reload(module)
                 exec("global %s" % arg1)
-                exec("%s=getattr(module, plugin)" % arg1)
+                exec("%s=getattr(module, arg1)" % arg1)
                 return "%s: Plugin `%s` reloaded." % (nick, arg1)
             except:
                 return "%s: Plugin `%s` not found." % (nick, arg1)
