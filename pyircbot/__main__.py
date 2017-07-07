@@ -27,7 +27,7 @@ plugins = list(map(lambda file: splitext(file)[0] ,filter(lambda file: file.ends
 pluginss = []
 for plugin in plugins:
     try:
-        # exec("global %s" % plugin)
+        exec("global %s" % plugin)
         module = importlib.import_module("plugins.%s" % plugin)
         exec("%s=getattr(module, plugin)" % plugin)
         pluginss.append(plugin)
