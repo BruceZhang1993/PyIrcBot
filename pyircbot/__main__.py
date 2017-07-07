@@ -37,6 +37,10 @@ PREFIX = '$'
 PLUGINDIR = './plugins/'
 pluginss = load_plugins(PLUGINDIR)
 
+from plugins.echo import echo
+from plugins.ip import ip
+from plugins.linkhandler import linkhandler
+
 class MyBot(irc.bot.SingleServerIRCBot):
 
     version = "201606-dev"
