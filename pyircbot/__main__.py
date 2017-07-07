@@ -26,7 +26,9 @@ def load_plugins(plugin_dir):
     loaded_plugins = []
     for plugin in plugins:
         try:
-            exec("from plugins.%s import %s" % (plugin, plugin))
+            exec("global %s" % plugin)
+            module = importlib.import_module("plugins.%s" % plugin)
+            exec('linkhandler=getattr(module, plugin)')
             loaded_plugins.append(plugin)
         except ImportError as e:
             print(e);
@@ -37,9 +39,9 @@ PREFIX = '$'
 PLUGINDIR = './plugins/'
 pluginss = load_plugins(PLUGINDIR)
 
-from plugins.echo import echo
-from plugins.ip import ip
-from plugins.linkhandler import linkhandler
+# from plugins.echo import echo
+# from plugins.ip import ip
+# from plugins.linkhandler import linkhandler
 
 class MyBot(irc.bot.SingleServerIRCBot):
 
