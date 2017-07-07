@@ -22,6 +22,11 @@ logger = logging.getLogger("ircbot")
 
 def linkhandler(line, nick, channel, c, e):
     # logger.debug('public msg received: %s' % line)
+
+    # Prevent words from another titlebot
+    if nick == 'anotitlebot':
+        return []
+
     words = line.split()
     results = []
     for word in words:
