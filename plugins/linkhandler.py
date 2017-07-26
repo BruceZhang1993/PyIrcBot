@@ -32,6 +32,9 @@ def linkhandler(line, nick, channel, c, e):
     for word in words:
         if _is_httplink(word) and not _is_localnet(word):
             con = None
+            if word.find('youtube.com') != -1:
+                results.append(_get_video_title(word.strip()))
+                continue
             if word.find('music.163.com') != -1:
                 word = _nemusic_reformat(word)
             try:
@@ -159,6 +162,12 @@ def _get_img_reso(con):
     except:
         logger.warning('unable to identify image.')
     return result
+
+
+def _get_video_title(url):
+    for line in os.popen('you-get %s' % url):
+        if line.find('title') != -1:
+            return line.split(':')[1].strip("\n").strip()
 
 
 def _get_media_format_duration_bitrate(url):
