@@ -26,12 +26,14 @@ def admin(args, nick, channel, c, e):
         if subcommand == 'reload' and arg1 is not False:
             try:
                 for module in pyircbot.globalvar.modules:
-                    if module.__name__ == arg1:
+                    print(module.__name__)
+                    if module.__name__ == 'plugins.' + arg1.strip():
                         importlib.reload(module)
+                        exec("pyircbot.globalvar.%s=getattr(module, arg1)" % arg1)
                         break;
                 # exec("global %s" % arg1)
-                exec("%s=getattr(module, arg1)" % arg1)
                 return "%s: Plugin `%s` reloaded." % (nick, arg1)
-            except:
+            except Exception as e:
+                logger.debug(e);
                 return "%s: Plugin `%s` not found." % (nick, arg1)
     return "%s: Not admin."

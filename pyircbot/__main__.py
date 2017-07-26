@@ -31,7 +31,7 @@ for plugin in plugins:
     try:
         module = importlib.import_module("plugins.%s" % plugin)
         pyircbot.globalvar.modules.append(module)
-        exec("%s=getattr(module, plugin)" % plugin)
+        exec("pyircbot.globalvar.%s=getattr(module, plugin)" % plugin)
         pluginss.append(plugin)
     except ImportError as e:
         print(e);
@@ -79,7 +79,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
                 args = ''
             else:
                 args = cmdargs[1]
-            msg = eval("%s" % cmdargs[0])(args, nick, channel, con, event)
+            msg = eval("pyircbot.globalvar.%s" % cmdargs[0])(args, nick, channel, con, event)
             return msg
         return False
 
@@ -90,7 +90,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
         if line.strip().endswith(" #"):
             return []
         for handler in self.handlers:
-            resmsg = eval("%s" % handler)(line, nick, channel, con, event)
+            resmsg = eval("pyircbot.globalvar.%s" % handler)(line, nick, channel, con, event)
             return resmsg
 
     def on_privmsg(self, c, e):
