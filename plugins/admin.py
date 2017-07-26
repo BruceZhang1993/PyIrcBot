@@ -8,6 +8,7 @@
 
 import importlib
 import logging
+import pyircbot.globalvar
 
 '''admin management plugin'''
 logger = logging.getLogger('ircbot')
@@ -24,8 +25,10 @@ def admin(args, nick, channel, c, e):
             arg1 = cmd[1]
         if subcommand == 'reload' and arg1 is not False:
             try:
-                module = importlib.import_module("plugins.%s" % arg1)
-                importlib.reload(module)
+                for module in pyircbot.globalvar.modules:
+                    if module.__name__ == arg1:
+                        importlib.reload(module)
+                        break;
                 # exec("global %s" % arg1)
                 exec("%s=getattr(module, arg1)" % arg1)
                 return "%s: Plugin `%s` reloaded." % (nick, arg1)

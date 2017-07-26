@@ -18,6 +18,7 @@ import sys
 import signal
 import importlib
 from os.path import splitext
+import pyircbot.globalvar
 
 logger = logging.getLogger('ircbot')
 PLUGINDIR = './plugins/'
@@ -25,9 +26,11 @@ PREFIX = '$'
 
 plugins = list(map(lambda file: splitext(file)[0] ,filter(lambda file: file.endswith('.py') and not file.startswith('__init__'), os.listdir(PLUGINDIR))))
 pluginss = []
+pyircbot.globalvar.modules = []
 for plugin in plugins:
     try:
         module = importlib.import_module("plugins.%s" % plugin)
+        pyircbot.globalvar.modules.append(module)
         exec("%s=getattr(module, plugin)" % plugin)
         pluginss.append(plugin)
     except ImportError as e:
