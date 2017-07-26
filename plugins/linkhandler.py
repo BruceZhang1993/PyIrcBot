@@ -33,7 +33,7 @@ def linkhandler(line, nick, channel, c, e):
         if _is_httplink(word) and not _is_localnet(word):
             con = None
             if word.find('youtube.com') != -1:
-                results.append(_get_video_title(word.strip()))
+                results.append(_colored("↑↑ Youtube: ", "blue") + _get_video_title(word.strip()) + _colored("↑↑", "blue"))
                 continue
             if word.find('music.163.com') != -1:
                 word = _nemusic_reformat(word)
