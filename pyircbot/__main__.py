@@ -70,7 +70,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
     def exec_command(self, commandline, nick='', channel='', con=False, event=False):
         cmdargs = commandline.split(' ', 1)
         if cmdargs[0] == 'help':
-            return self._helpmsg()
+            return self._helpmsg(nick)
         if cmdargs[0] in self.commands:
             if len(cmdargs) < 2:
                 args = ''
@@ -80,8 +80,8 @@ class MyBot(irc.bot.SingleServerIRCBot):
             return msg
         return False
 
-    def _helpmsg(self):
-        return "已加载插件列表 [ %s ] | 主动技能 [ %s ] | 被动技能 [ %s ]" % ( ','.join(list(filter(lambda x:"`%s`" % x, plugins))), ','.join(list(filter(lambda x:"`%s`" % x, self.commands))),','.join(list(filter(lambda x:"`%s`" % x, self.handlers))))
+    def _helpmsg(self, nick):
+        return "%s: 已加载插件列表 [ %s ] | 主动技能 [ %s ] | 被动技能 [ %s ]" % ( nick, ','.join(list(filter(lambda x:"`%s`" % x, plugins))), ','.join(list(filter(lambda x:"`%s`" % x, self.commands))),','.join(list(filter(lambda x:"`%s`" % x, self.handlers))))
 
     def passive_exec(self, line, nick='', channel='', con=False, event=False):
         if line.strip().endswith(" #"):
