@@ -167,7 +167,8 @@ def _get_img_reso(con):
 def _get_video_title(url):
     for line in os.popen('you-get %s' % url):
         if line.find('title') != -1:
-            return line.split(':')[1].strip("\n").strip()
+            title = line.split(':')[1].strip("\n").strip()
+    return title
 
 
 def _get_media_format_duration_bitrate(url):
