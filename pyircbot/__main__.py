@@ -48,8 +48,8 @@ class MyBot(irc.bot.SingleServerIRCBot):
     def __init__(self, channels, nickname, server, port, realname):
         irc.bot.SingleServerIRCBot.__init__(self, [(server, port)],
                                             nickname, realname)
-        self.handlers = list(filter(lambda p: p.endswith('handler'), pluginss))
-        self.commands = list(filter(lambda p: not p.endswith('handler'), pluginss))
+        pyircbot.globalvar.handlers = list(filter(lambda p: p.endswith('handler'), pluginss))
+        pyircbot.globalvar.commands = list(filter(lambda p: not p.endswith('handler'), pluginss))
         self.chs = channels
         logger.info("Bot started successfully.")
         signal.signal(signal.SIGINT, self._quit)
@@ -74,7 +74,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
         cmdargs = commandline.split(' ', 1)
         if cmdargs[0] == 'help':
             return self._helpmsg(nick)
-        if cmdargs[0] in self.commands:
+        if cmdargs[0] in pyircbot.globalvar.commands:
             if len(cmdargs) < 2:
                 args = ''
             else:
@@ -84,12 +84,12 @@ class MyBot(irc.bot.SingleServerIRCBot):
         return False
 
     def _helpmsg(self, nick):
-        return "%s: 已加载插件列表 [ %s ] | 主动技能 [ %s ] | 被动技能 [ %s ]" % ( nick, ','.join(list(filter(lambda x:"`%s`" % x, plugins))), ','.join(list(filter(lambda x:"`%s`" % x, self.commands))),','.join(list(filter(lambda x:"`%s`" % x, self.handlers))))
+        return "%s: 已加载插件列表 [ %s ] | 主动技能 [ %s ] | 被动技能 [ %s ]" % ( nick, ','.join(list(filter(lambda x:"`%s`" % x, plugins))), ','.join(list(filter(lambda x:"`%s`" % x, pyircbot.globalvar.commands))),','.join(list(filter(lambda x:"`%s`" % x, pyircbot.globalvar.handlers))))
 
     def passive_exec(self, line, nick='', channel='', con=False, event=False):
         if line.strip().endswith(" #"):
             return []
-        for handler in self.handlers:
+        for handler in pyircbot.globalvar.handlers:
             resmsg = eval("pyircbot.globalvar.%s" % handler)(line, nick, channel, con, event)
             return resmsg
 
