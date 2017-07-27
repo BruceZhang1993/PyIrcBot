@@ -39,7 +39,7 @@ def admin(args, nick, channel, c, e):
             try:
                 for module in pyircbot.globalvar.modules:
                     importlib.reload(module)
-                    exec("pyircbot.globalvar.%s=getattr(module, arg1)" % arg1)
+                    exec("pyircbot.globalvar.%s=getattr(module, '%s')" % (module.__name__.split('.')[1]), module.__name__.split('.')[1])
                 # exec("global %s" % arg1)
                 return "%s: 所有插件已重新加载" % (nick)
             except Exception as e:
