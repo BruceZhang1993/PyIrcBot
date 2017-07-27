@@ -168,7 +168,7 @@ def _get_img_reso(con):
 
 
 def _get_video_title(url):
-    for line in os.popen('you-get %s' % url):
+    for line in os.popen('you-get -i %s' % url):
         if line.find('title') != -1:
             title = line.split(':')[1].strip("\n").strip()
     return title
