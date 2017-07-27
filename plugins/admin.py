@@ -40,9 +40,8 @@ def admin(args, nick, channel, c, e):
                 for module in pyircbot.globalvar.modules:
                     importlib.reload(module)
                     exec("pyircbot.globalvar.%s=getattr(module, arg1)" % arg1)
-                    break;
                 # exec("global %s" % arg1)
                 return "%s: All Plugins reloaded." % (nick)
             except Exception as e:
                 logger.debug(e);
-    return "%s: Not admin."
+    return "%s: Not admin." % nick
