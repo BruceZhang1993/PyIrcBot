@@ -35,6 +35,9 @@ def linkhandler(line, nick, channel, c, e):
             if word.find('youtube.com') != -1:
                 results.append(_colored("↑↑ Youtube: ", "blue") + _get_video_title(word.strip()) + _colored("↑↑", "blue"))
                 continue
+            if word.find('bilibili.com') != -1:
+                results.append(_colored("↑↑ Bilibili: ", "blue") + _get_video_title(word.strip()) + _colored("↑↑", "blue"))
+                continue
             if word.find('music.163.com') != -1:
                 word = _nemusic_reformat(word)
             try:
