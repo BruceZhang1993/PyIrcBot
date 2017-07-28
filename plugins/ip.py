@@ -19,9 +19,9 @@ def ip(args, nick, channel, c, e):
 
 
 def _getip(ip):
-    if re.match(r'\d+.\d+.\d+.\d+', ip):
+    try:
         ret = requests.get("http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json&ip=%s" % ip)
         jret = json.loads(ret.text)
         return "%s %s %s %s %s" % (jret['country'], jret['province'], jret['city'], jret['district'], jret['isp'])
-    else:
-        return "查询失败！检查是否已隐身或IP格式不正确！"
+    except Exception as e:
+        return "未知错误"
