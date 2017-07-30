@@ -147,7 +147,8 @@ def _get_url_title(con, maxlen=1000):
             con = None
             break
     if title_found:
-        return BeautifulSoup(b''.join(lines), 'html5lib').title.text.strip()
+        if BeautifulSoup(b''.join(lines), 'html5lib').title:
+            return BeautifulSoup(b''.join(lines), 'html5lib').title.text.strip()
     return False
 
 
