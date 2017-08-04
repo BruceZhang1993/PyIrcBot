@@ -43,7 +43,7 @@ for plugin in plugins:
 
 class MyBot(irc.bot.SingleServerIRCBot):
 
-    version = "201606-dev"
+    version = "1.99"
 
     def __init__(self, channels, nickname, server, port, realname):
         irc.bot.SingleServerIRCBot.__init__(self, [(server, port)],
