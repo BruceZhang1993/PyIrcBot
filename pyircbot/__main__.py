@@ -29,7 +29,7 @@ pluginss = []
 pyircbot.globalvar.modules = []
 for plugin in plugins:
     try:
-        module = importlib.import_module("pyircbot.plugins.%s" % plugin)
+        module = importlib.import_module("plugins.%s" % plugin)
         pyircbot.globalvar.modules.append(module)
         exec("pyircbot.globalvar.%s=getattr(module, plugin)" % plugin)
         pluginss.append(plugin)

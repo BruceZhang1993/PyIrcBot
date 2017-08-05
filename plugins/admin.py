@@ -26,7 +26,7 @@ def admin(args, nick, channel, c, e):
         if subcommand == 'reload' and arg1 is not False:
             try:
                 for module in pyircbot.globalvar.modules:
-                    if module.__name__ == 'pyircbot.plugins.' + arg1.strip():
+                    if module.__name__ == 'plugins.' + arg1.strip():
                         importlib.reload(module)
                         exec("pyircbot.globalvar.%s=getattr(module, arg1)" % arg1)
                         break
@@ -46,7 +46,7 @@ def admin(args, nick, channel, c, e):
                 logger.debug(e)
         elif subcommand == 'load' and arg1 is not False:
             try:
-                module = importlib.import_module("pyircbot.plugins.%s" % arg1)
+                module = importlib.import_module("plugins.%s" % arg1)
                 pyircbot.globalvar.modules.append(module)
                 exec("pyircbot.globalvar.%s=getattr(module, arg1)" % arg1)
                 return "%s: 插件 `%s` 已成功加载" % (nick, arg1)
