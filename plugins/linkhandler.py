@@ -35,7 +35,7 @@ def linkhandler(line, nick, channel, c, e):
             if word.find('en.wikipedia.org') != -1:
                 r = _get_wiki(word.strip())
                 if r:
-                    results.append(_colored("↑↑ Wikipedia: ", "blue") + _get_wiki(word.strip()) + _colored("↑↑", "blue"))
+                    results.append(_colored("↑↑ Wikipedia: ", "blue") + r + _colored("↑↑", "blue"))
                 continue
             if word.find('youtube.com') != -1:
                 results.append(_colored("↑↑ Youtube: ", "blue") + _get_video_title(word.strip()) + _colored("↑↑", "blue"))
@@ -155,7 +155,8 @@ def _get_wiki(url):
         textarr = first_para.split('.', num=1)
         return textarr[0]
 
-    except:
+    except Exception as e:
+        logger.debug(e)
         logger.warning("Connection failed for %s." % url)
 
 
