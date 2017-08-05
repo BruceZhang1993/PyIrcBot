@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='bruce-ircbot',
-    version='1.99',
+    version='2.00',
     packages=['pyircbot', 'pyircbot.plugins'],
     url='https://github.com/BruceZhang1993/PyIrcBot',
     license='MIT',
