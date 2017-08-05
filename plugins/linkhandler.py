@@ -147,11 +147,11 @@ def _get_wiki(url):
         lines = []
         for line in con.iter_lines():
             lines.append(line)
-            if str(line).find('<div id="toc" class="toc">') != -1:
+            if str(line).find('<div id="mw-navigation">') != -1:
                 con.close()
                 break
         soup = BeautifulSoup(b''.join(lines), 'html5lib')
-        first_para = soup.find('.mw-parser-output>p').text().strip()
+        first_para = soup.find('.mw-parser-output p').text().strip()
         textarr = first_para.split('.', num=1)
         return textarr[0]
 
