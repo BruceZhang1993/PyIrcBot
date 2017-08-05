@@ -32,6 +32,9 @@ def linkhandler(line, nick, channel, c, e):
     for word in words:
         if _is_httplink(word) and not _is_localnet(word):
             con = None
+            if word.find('en.wikipedia.org') != -1:
+                results.append(_colored("↑↑ Wikipedia: ", "blue") + _get_wiki(word.strip()) + _colored("↑↑", "blue"))
+                continue
             if word.find('youtube.com') != -1:
                 results.append(_colored("↑↑ Youtube: ", "blue") + _get_video_title(word.strip()) + _colored("↑↑", "blue"))
                 continue
@@ -133,6 +136,27 @@ def _get_url_info(con):
     type = con.headers.get('content-type', 'unknown')
     length = con.headers.get('content-length', 0)
     return type, length
+
+
+def _get_wiki(url):
+    try:
+        con = requests.get(url, stream=True, allow_redirects=True)
+        con.raise_for_status()
+        lines = []
+        menu_found = False
+        for line in con.iter_lines():
+            lines.append(line)
+            if str(line).find('<div id="toc" class="toc">') != -1:
+                menu_found = True
+                con.close()
+                break
+        if menu_found:
+            soup = BeautifulSoup(b''.join(lines), 'html5lib')
+            first_para = soup.find('.mw-parser-output>p').text().strip()
+            textarr = first_para.split('.', num=1)
+            return textarr[0]
+    except:
+        logger.warning("Connection failed for %s." % url)
 
 
 def _get_url_title(con, maxlen=1000):
