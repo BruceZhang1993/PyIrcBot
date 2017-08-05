@@ -29,12 +29,12 @@ pluginss = []
 pyircbot.globalvar.modules = []
 for plugin in plugins:
     try:
-        module = importlib.import_module("plugins.%s" % plugin)
+        module = importlib.import_module("pyircbot.plugins.%s" % plugin)
         pyircbot.globalvar.modules.append(module)
         exec("pyircbot.globalvar.%s=getattr(module, plugin)" % plugin)
         pluginss.append(plugin)
     except ImportError as e:
-        print(e);
+        print(e)
         logger.warning("Cannot load plugin `%s`, ignoring it." % plugin)
 
 # from plugins.echo import echo
@@ -43,7 +43,7 @@ for plugin in plugins:
 
 class MyBot(irc.bot.SingleServerIRCBot):
 
-    version = "1.99"
+    version = "2.00"
 
     def __init__(self, channels, nickname, server, port, realname):
         irc.bot.SingleServerIRCBot.__init__(self, [(server, port)],
