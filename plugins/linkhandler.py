@@ -152,7 +152,7 @@ def _get_wiki(url):
                 break
         soup = BeautifulSoup(b''.join(lines), 'html5lib')
         first_para = soup.find(class_='mw-parser-output').find('p').text.strip()
-        textarr = first_para.split('.', num=1)
+        textarr = first_para.split('.')
         return textarr[0]
 
     except Exception as e:
