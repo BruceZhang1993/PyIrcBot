@@ -33,7 +33,9 @@ def linkhandler(line, nick, channel, c, e):
         if _is_httplink(word) and not _is_localnet(word):
             con = None
             if word.find('en.wikipedia.org') != -1:
-                results.append(_colored("↑↑ Wikipedia: ", "blue") + _get_wiki(word.strip()) + _colored("↑↑", "blue"))
+                r = _get_wiki(word.strip())
+                if r:
+                    results.append(_colored("↑↑ Wikipedia: ", "blue") + _get_wiki(word.strip()) + _colored("↑↑", "blue"))
                 continue
             if word.find('youtube.com') != -1:
                 results.append(_colored("↑↑ Youtube: ", "blue") + _get_video_title(word.strip()) + _colored("↑↑", "blue"))
@@ -143,18 +145,16 @@ def _get_wiki(url):
         con = requests.get(url, stream=True, allow_redirects=True)
         con.raise_for_status()
         lines = []
-        menu_found = False
         for line in con.iter_lines():
             lines.append(line)
             if str(line).find('<div id="toc" class="toc">') != -1:
-                menu_found = True
                 con.close()
                 break
-        if menu_found:
-            soup = BeautifulSoup(b''.join(lines), 'html5lib')
-            first_para = soup.find('.mw-parser-output>p').text().strip()
-            textarr = first_para.split('.', num=1)
-            return textarr[0]
+        soup = BeautifulSoup(b''.join(lines), 'html5lib')
+        first_para = soup.find('.mw-parser-output>p').text().strip()
+        textarr = first_para.split('.', num=1)
+        return textarr[0]
+
     except:
         logger.warning("Connection failed for %s." % url)
 
