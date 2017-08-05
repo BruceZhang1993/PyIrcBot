@@ -142,9 +142,15 @@ def _get_url_info(con):
 
 def _get_wiki(url):
     try:
-        con = requests.get(url, allow_redirects=True)
+        con = requests.get(url, stream=True, allow_redirects=True)
         con.raise_for_status()
-        soup = BeautifulSoup(con.content, 'html5lib')
+        lines = []
+        for line in con.iter_lines():
+            lines.append(line)
+            if str(line).find('<div id="mw-navigation">') != -1:
+                con.close()
+                break
+        soup = BeautifulSoup(b''.join(lines), 'html5lib')
         first_para = soup.soup.find(class_='mw-parser-output').find('p').text().strip()
         textarr = first_para.split('.', num=1)
         return textarr[0]
