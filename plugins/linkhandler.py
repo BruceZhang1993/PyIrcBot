@@ -153,7 +153,14 @@ def _get_wiki(url):
         soup = BeautifulSoup(b''.join(lines), 'html5lib')
         first_para = soup.find(class_='mw-parser-output').find('p').text.strip()
         textarr = first_para.split('.')
-        return textarr[0]
+        if textarr.find('may refer to') != -1:
+            refers = []
+            lis = soup.select('.mw-parser-output>ul>li')
+            for i in lis:
+                refers.append(i.text.strip)
+            return ' '.join(refers)[0:100]
+        else:
+            return textarr[0]
 
     except Exception as e:
         logger.debug(e)
