@@ -158,7 +158,7 @@ def _get_wiki(url):
             lis = soup.find(class_='mw-parser-output').find('ul').find_all('li')
             for i in lis:
                 refers.append(i.text.strip())
-            return ' '.join(refers)[0:100]
+            return ' | '.join(refers)[0:200]
         else:
             return textarr[0]
 
