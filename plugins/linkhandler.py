@@ -155,9 +155,9 @@ def _get_wiki(url):
         textarr = first_para.split('.')
         if textarr[0].find('may refer to') != -1:
             refers = []
-            lis = soup.select('.mw-parser-output>ul>li')
+            lis = soup.find(class_='mw-parser-output').find('ul').find('li')
             for i in lis:
-                refers.append(i.text.strip)
+                refers.append(i.text.strip())
             return ' '.join(refers)[0:100]
         else:
             return textarr[0]
