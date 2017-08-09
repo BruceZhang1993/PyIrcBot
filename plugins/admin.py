@@ -51,6 +51,6 @@ def admin(args, nick, channel, c, e):
                 exec("pyircbot.globalvar.%s=getattr(module, arg1)" % arg1)
                 return "%s: 插件 `%s` 已成功加载" % (nick, arg1)
             except Exception as e:
-                logger.debug(e);
+                logger.debug(e)
                 return "%s: 插件 `%s` 加载失败" % (nick, arg1)
     return "%s: 不是管理用户" % nick
