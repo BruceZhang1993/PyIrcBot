@@ -32,11 +32,11 @@ def linkhandler(line, nick, channel, c, e):
     for word in words:
         if _is_httplink(word) and not _is_localnet(word):
             con = None
-            if word.find('wikipedia.org') != -1:
-                r = _get_wiki(word.strip())
-                if r:
-                    results.append(_colored("↑↑ Wikipedia: ", "blue") + r + _colored("↑↑", "blue"))
-                continue
+            #if word.find('wikipedia.org') != -1:
+                #r = _get_wiki(word.strip())
+                #if r:
+                #    results.append(_colored("↑↑ Wikipedia: ", "blue") + r + _colored("↑↑", "blue"))
+                #continue
             if word.find('youtube.com') != -1:
                 results.append(_colored("↑↑ Youtube: ", "blue") + _get_video_title(word.strip()) + _colored("↑↑", "blue"))
                 continue
