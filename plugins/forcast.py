@@ -39,5 +39,5 @@ def _get_city_location(city, place=None):
     con = requests.get(baidu_url)
     js = json.loads(con.content)
     if 'result' in js.keys() and 'location' in js['result'].keys():
-        return "%.4f,%.4f" % (js['result']['location']['lat'], js['result']['location']['lng'])
+        return "%.6f,%.6f" % (js['result']['location']['lat'], js['result']['location']['lng'])
     return False
