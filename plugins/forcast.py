@@ -31,10 +31,10 @@ def forcast(args, nick, channel, c, e):
 
 def _get_city_location(city, place=None):
     if place:
-        baidu_url = "https://api.map.baidu.com/geocoder/v2/?output=json&address=%scity=%s&ak=%s" % \
+        baidu_url = "https://api.map.baidu.com/geocoder/v2/?output=json&address=%scity=%s&ak=%s&coordtype=wgs84ll" % \
                 (city, place, "6ea5c34d2e11b0ef256a870433dc098d")
     else:
-        baidu_url = "https://api.map.baidu.com/geocoder/v2/?output=json&address=%scity=%s&ak=%s" % \
+        baidu_url = "https://api.map.baidu.com/geocoder/v2/?output=json&address=%scity=%s&ak=%s&coordtype=wgs84ll" % \
                 (city, city, "6ea5c34d2e11b0ef256a870433dc098d")
     con = requests.get(baidu_url)
     js = json.loads(con.content)
