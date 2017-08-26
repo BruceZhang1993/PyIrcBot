@@ -22,8 +22,8 @@ def forcast(args, nick, channel, c, e):
         con1 = requests.get(darksky_url)
         # print(con1.content)
         js1 = json.loads(con1.content)
-        return "%s: 即时天气 %s 实时温度 %.2f℃ 体感温度 %.2f℃ 降水概率 %d%% 湿度 %d%% 紫外线指数 %d 短时预报 %s 本周天气 %s" \
-               % (nick, js1['currently']['summary'], js1['currently']['temperature'], js1['currently']['apparentTemperature'],
+        return "%s: (%s) 即时天气 %s 实时温度 %.2f℃ 体感温度 %.2f℃ 降水概率 %d%% 湿度 %d%% 紫外线指数 %d 短时预报 %s 本周天气 %s" \
+               % (nick, location, js1['currently']['summary'], js1['currently']['temperature'], js1['currently']['apparentTemperature'],
                   js1['currently']['precipProbability']*100, js1['currently']['humidity']*100, js1['currently']['uvIndex'], js1['hourly']['summary'], js1['daily']['summary'])
     else:
         return "%s: 城市输入有误" % nick
