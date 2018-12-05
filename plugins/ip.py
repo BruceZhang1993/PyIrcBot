@@ -1,13 +1,12 @@
 # !/usr/bin/env python3
 # -*- coding: utf-8 -*-
+# IP lookup plugins - Sina API
 # -----------------------------
 # Author:  Bruce Zhang
 # Email:   zy183525594@163.com
 # Version: 0.1
 # -----------------------------
 
-'''ip lookup plugin'''
-import re
 import json
 import requests
 

@@ -1,5 +1,6 @@
 # !/usr/bin/env python3
 # -*- coding: utf-8 -*-
+# URL link handler
 # -----------------------------
 # Author:  Bruce Zhang
 # Email:   zy183525594@163.com
@@ -13,7 +14,7 @@ import os
 import requests
 from PIL import Image
 
-#sys.path.append("../")
+# sys.path.append("../")
 from bs4 import BeautifulSoup
 
 fake_headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:46.0) Gecko/20100101 Firefox/46.0"}

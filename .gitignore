@@ -4,3 +4,6 @@ __pycache__
 build
 bruce_ircbot.egg-info
 dist
+Pipfile
+Pipfile.lock
+PyIrcBot.iml

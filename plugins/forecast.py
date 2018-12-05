@@ -5,7 +5,7 @@ import requests
 import json
 
 
-def forcast(args, nick, channel, c, e):
+def forecast(args, nick, channel, c, e):
     args = args.split()
     if len(args) == 0:
         return "%s: 请输入城市" % nick

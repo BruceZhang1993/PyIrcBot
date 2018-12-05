@@ -8,20 +8,20 @@
 
 import irc.bot
 import irc.client
-import irc.buffer
+import jaraco.stream.buffer
 import os
 import json
 import logging
-from termcolor import colored
 import re
 import sys
 import signal
 import importlib
 from os.path import splitext
 import pyircbot.globalvar
+import argparse
 
 logger = logging.getLogger('ircbot')
-PLUGINDIR = './plugins/'
+PLUGINDIR = os.path.dirname(__file__) + '/../plugins/'
 PREFIX = '$'
 
 plugins = list(map(lambda file: splitext(file)[0] ,filter(lambda file: file.endswith('.py') and not file.startswith('__init__'), os.listdir(PLUGINDIR))))
@@ -145,13 +145,17 @@ def _do_nothing():
     pass
 
 
-class IgnoreErrorsBuffer(irc.buffer.DecodingLineBuffer):
+class IgnoreErrorsBuffer(jaraco.stream.buffer.DecodingLineBuffer):
     def handle_exception(self):
         pass
 
 
 def main():
-    # DONE:10 Try using config file
+    # Parse arguments
+    parser = argparse.ArgumentParser(description='PyIrcBot: Anyone can build your own IRC bot.')
+    parser.add_argument('-n', '--no-color', action="store_true", help="Use setup wizard without colors")
+    args = parser.parse_args()
+
     confdir = os.environ['HOME'] + "/.pyircbot/"
     conffile = confdir + "config.json"
     logfile = confdir + "bot.log"
@@ -196,14 +200,25 @@ def main():
         logger.debug("Configure file loaded. Starting bot...")
     else:
         logger.info("Configure file not found. Creating now...")
-        print(colored("-- PyIrcBot 配置向导 --", "yellow"))
-        config = dict()
-        config['nick'] = input(colored("Nickname: ", "green")).strip()
-        config["realname"] = input(colored("Real Name: ", "green")).strip()
-        print(colored("-- 配置 IRC 服务器 --", "blue"))
-        config['network'] = input(colored("Server: ", "green")).strip()
-        config['port'] = int(input(colored("Port: ", "green")).strip())
-        config['channels'] = re.split(r'\s+', input(colored("Channels (Split with space): ", "green")))
+        if not args.no_color:
+            from termcolor import colored
+            print(colored("-- PyIrcBot 配置向导 --", "yellow"))
+            config = dict()
+            config['nick'] = input(colored("Nickname: ", "green")).strip()
+            config["realname"] = input(colored("Real Name: ", "green")).strip()
+            print(colored("-- 配置 IRC 服务器 --", "blue"))
+            config['network'] = input(colored("Server: ", "green")).strip()
+            config['port'] = int(input(colored("Port: ", "green")).strip())
+            config['channels'] = re.split(r'\s+', input(colored("Channels (Split with space): ", "green")))
+        else:
+            print("-- PyIrcBot 配置向导 --")
+            config = dict()
+            config['nick'] = input("Nickname: ").strip()
+            config["realname"] = input("Real Name: ").strip()
+            print("-- 配置 IRC 服务器 --")
+            config['network'] = input("Server: ").strip()
+            config['port'] = int(input("Port: ").strip())
+            config['channels'] = re.split(r'\s+', input("Channels (Split with space): "))
         fp = None
         try:
             fp = open(conffile, "w")
@@ -216,7 +231,11 @@ def main():
             if fp:
                 fp.close()
         logger.debug("Configure file created. Starting bot...")
-        print(colored("配置文件创建成功，启动 PyIrcBot...", "yellow"))
+        if not args.no_color:
+            from termcolor import colored
+            print(colored("配置文件创建成功，启动 PyIrcBot...", "yellow"))
+        else:
+            print("配置文件创建成功，启动 PyIrcBot...")
         channels = config["channels"]
         nickname = config["nick"]
         server = config["network"]
